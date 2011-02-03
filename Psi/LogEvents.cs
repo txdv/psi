@@ -22,6 +22,19 @@ using System.Collections.Generic;
 
 namespace Psi
 {
+
+  // interfaces
+
+  public interface IPlayerInfo
+  {
+    string Name   { get; }
+    int    UserId { get; }
+    string AuthId { get; }
+    string Team   { get; }
+  }
+
+  // classes
+
   public abstract class Base
   {
     public Base(DateTime dt)
@@ -70,38 +83,38 @@ namespace Psi
 
   public abstract class PlayerBase : Base
   {
-    public PlayerBase(DateTime dt, Player player)
+    public PlayerBase(DateTime dt, IPlayerInfo player)
       : base(dt)
     {
       Player = player;
     }
 
-    public Player Player { get; set; }
+    public IPlayerInfo Player { get; set; }
   }
 
-  public class Player
+  public class Player : IPlayerInfo
   {
     public Player(string name, string connid, string authid, string team)
     {
       Name = name;
-      ConnectionId = int.Parse(connid);
+      UserId = int.Parse(connid);
       AuthId = authid;
       Team = team;
     }
-    public string Name         { get; set; }
-    public int    ConnectionId { get; set; }
-    public string AuthId       { get; set; }
-    public string Team         { get; set; }
+    public string Name   { get; set; }
+    public int    UserId { get; set; }
+    public string AuthId { get; set; }
+    public string Team   { get; set; }
 
     public override string ToString ()
     {
-      return string.Format ("{0}<{1}><{2}><{3}>", Name, ConnectionId, AuthId, Team);
+      return string.Format("{0}<{1}><{2}><{3}>", Name, UserId, AuthId, Team);
     }
   }
 
   public class PlayerEnteredGame : PlayerBase
   {
-    public PlayerEnteredGame(DateTime dt, Player player)
+    public PlayerEnteredGame(DateTime dt, IPlayerInfo player)
       : base(dt, player)
     {
     }
@@ -114,15 +127,15 @@ namespace Psi
 
   public class Attack : PlayerBase
   {
-    public Attack(DateTime dt, Player attacker, Player victim, string weapon)
+    public Attack(DateTime dt, IPlayerInfo attacker, IPlayerInfo victim, string weapon)
       : base(dt, attacker)
     {
       Victim = victim;
       Weapon = weapon;
     }
 
-    public Player Victim { get; set; }
-    public string Weapon { get; set; }
+    public IPlayerInfo Victim { get; set; }
+    public string      Weapon { get; set; }
 
     public override string ToString ()
     {
@@ -132,7 +145,7 @@ namespace Psi
 
   public abstract class Talk : PlayerBase
   {
-    public Talk(DateTime dt, Player player, string message)
+    public Talk(DateTime dt, IPlayerInfo player, string message)
       : base(dt, player)
     {
       Message = message;
@@ -143,7 +156,7 @@ namespace Psi
 
   public class Say : Talk
   {
-    public Say(DateTime dt, Player player, string message)
+    public Say(DateTime dt, IPlayerInfo player, string message)
       : base(dt, player, message)
     {
     }
@@ -156,7 +169,7 @@ namespace Psi
 
   public class SayTeam : Talk
   {
-    public SayTeam(DateTime dt, Player player, string message)
+    public SayTeam(DateTime dt, IPlayerInfo player, string message)
       : base(dt, player, message)
     {
     }
@@ -169,7 +182,7 @@ namespace Psi
 
   public class UserValidated : PlayerBase
   {
-    public UserValidated(DateTime dt, Player player)
+    public UserValidated(DateTime dt, IPlayerInfo player)
       : base(dt, player)
     {
     }
@@ -182,7 +195,7 @@ namespace Psi
 
   public class PlayerTrigger : PlayerBase
   {
-    public PlayerTrigger(DateTime dt, Player player, string trigger)
+    public PlayerTrigger(DateTime dt, IPlayerInfo player, string trigger)
       : base(dt, player)
     {
       Trigger = trigger;
@@ -201,23 +214,23 @@ namespace Psi
   /// </summary>
   public class PlayerTriggerAgainst : PlayerTrigger
   {
-    public PlayerTriggerAgainst(DateTime dt, Player player, string trigger, Player target)
+    public PlayerTriggerAgainst(DateTime dt, IPlayerInfo player, string trigger, IPlayerInfo target)
       : base(dt, player, trigger)
     {
       Target = target;
     }
 
-    public Player Target { get; set; }
+    public IPlayerInfo Target { get; set; }
 
     public override string ToString ()
     {
-      return string.Format ("{0} against \"{1}\"", base.ToString(), Target);
+      return string.Format("{0} against \"{1}\"", base.ToString(), Target);
     }
   }
 
   public class JoinTeam : PlayerBase
   {
-    public JoinTeam(DateTime dt, Player player, string team)
+    public JoinTeam(DateTime dt, IPlayerInfo player, string team)
       : base(dt, player)
     {
       Team = team;
@@ -227,13 +240,13 @@ namespace Psi
 
     public override string ToString ()
     {
-      return string.Format ("\"{0}\" joined team \"{1}\"", Player, Team);
+      return string.Format("\"{0}\" joined team \"{1}\"", Player, Team);
     }
   }
 
   public class Disconnected : PlayerBase
   {
-    public Disconnected(DateTime dt, Player player)
+    public Disconnected(DateTime dt, IPlayerInfo player)
       : base(dt, player)
     {
     }
@@ -246,7 +259,7 @@ namespace Psi
 
   public class NameChanged : PlayerBase
   {
-    public NameChanged(DateTime dt, Player player, string name)
+    public NameChanged(DateTime dt, IPlayerInfo player, string name)
       : base(dt, player)
     {
       Name = name;
@@ -262,7 +275,7 @@ namespace Psi
 
   public class Connected : PlayerBase
   {
-    public Connected(DateTime dt, Player player, string ipstring)
+    public Connected(DateTime dt, IPlayerInfo player, string ipstring)
       : base(dt, player)
     {
       IPString = ipstring;
@@ -278,7 +291,7 @@ namespace Psi
 
   public class Suicide : PlayerBase
   {
-    public Suicide(DateTime dt, Player player, string trigger)
+    public Suicide(DateTime dt, IPlayerInfo player, string trigger)
       : base(dt, player)
     {
       Trigger = trigger;
@@ -368,7 +381,7 @@ namespace Psi
 
     public override string ToString()
     {
-      return string.Format ("Team \"{0}\" triggered \"{1}\"", Team, Trigger);
+      return string.Format("Team \"{0}\" triggered \"{1}\"", Team, Trigger);
     }
   }
 
@@ -384,7 +397,7 @@ namespace Psi
 
     public override string ToString ()
     {
-      return string.Format ("World triggered \"{0}\"", Trigger);
+      return string.Format("World triggered \"{0}\"", Trigger);
     }
   }
 
