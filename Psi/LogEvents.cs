@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Psi
 {
-	public abstract class Base
+	public abstract class LogEvent
 	{
 		public DateTime DateTime { get; set; }
 		public IDictionary<string, string> Options { get; set; }
 
-		public Base(DateTime dt)
+		public LogEvent(DateTime dt)
 		{
 			DateTime = dt;
 		}
@@ -52,7 +52,7 @@ namespace Psi
 		}
 	}
 
-	public abstract class PlayerBase : Base
+	public abstract class PlayerBase : LogEvent
 	{
 		public Player Player { get; set; }
 
@@ -277,7 +277,7 @@ namespace Psi
 		}
 	}
 
-	public class StartedMap : Base
+	public class StartedMap : LogEvent
 	{
 		public string Map { get; set; }
 
@@ -293,9 +293,9 @@ namespace Psi
 		}
 	}
 
-	public class ServerCvarsStart : Base
+	public class ServerCVarsStart : LogEvent
 	{
-		public ServerCvarsStart(DateTime dt)
+		public ServerCVarsStart(DateTime dt)
 			: base(dt)
 		{
 		}
@@ -306,9 +306,9 @@ namespace Psi
 		}
 	}
 
-	public class ServerCvarsEnd : Base
+	public class ServerCVarsEnd : LogEvent
 	{
-		public ServerCvarsEnd(DateTime dt)
+		public ServerCVarsEnd(DateTime dt)
 			: base(dt)
 		{
 		}
@@ -319,7 +319,7 @@ namespace Psi
 		}
 	}
 
-	public class ServerCVarSet : Base
+	public class ServerCVarSet : LogEvent
 	{
 		public string CVar { get; set; }
 		public string Value { get; set; }
@@ -337,7 +337,7 @@ namespace Psi
 		}
 	}
 
-	public class TeamTrigger : Base
+	public class TeamTrigger : LogEvent
 	{
 		public string Team { get; set; }
 		public string Trigger { get; set; }
@@ -355,7 +355,7 @@ namespace Psi
 		}
 	}
 
-	public class WorldTrigger : Base
+	public class WorldTrigger : LogEvent
 	{
 		public string Trigger { get; set; }
 
@@ -371,7 +371,7 @@ namespace Psi
 		}
 	}
 
-	public abstract class LogFile : Base
+	public abstract class LogFile : LogEvent
 	{
 		public LogFile(DateTime dt)
 			: base(dt)

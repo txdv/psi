@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace Psi
 {
-	public static class Parser
+	public class Parser
 	{
+		#region parsing
+
 		private static string str;
 		private static int strLen;
 		private static int pos;
@@ -222,7 +224,181 @@ namespace Psi
 			return ret;
 		}
 
-		public static Base UnsafeParse(string s)
+		#endregion
+
+		#region Events
+
+		public event Action<LogEvent> LogEvent;
+		protected void OnLogEvent(LogEvent logEvent)
+		{
+			if (LogEvent != null) {
+				LogEvent(logEvent);
+			}
+		}
+
+		public event Action<Attack> Attack;
+		protected void OnAttack(Attack attack)
+		{
+			if (Attack != null) {
+				Attack(attack);
+			}
+		}
+
+		public event Action<Say> Say;
+		protected void OnSay(Say say)
+		{
+			if (Say != null) {
+				Say(say);
+			}
+		}
+
+		public event Action<SayTeam> SayTeam;
+		protected void OnSayTeam(SayTeam sayTeam)
+		{
+			if (SayTeam != null) {
+				SayTeam(sayTeam);
+			}
+		}
+
+		public event Action<UserValidated> UserValidated;
+		protected void OnUserValidated(UserValidated userValidated)
+		{
+			if (UserValidated != null) {
+				UserValidated(userValidated);
+			}
+		}
+
+		public event Action<PlayerTrigger> PlayerTrigger;
+		protected void OnPlayerTrigger(PlayerTrigger playerTrigger)
+		{
+			if (PlayerTrigger != null) {
+				PlayerTrigger(playerTrigger);
+			}
+		}
+
+		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
+		protected void OnPlayerTriggerAgainst(PlayerTriggerAgainst playerTriggerAgainst)
+		{
+			if (PlayerTriggerAgainst != null) {
+				PlayerTriggerAgainst(playerTriggerAgainst);
+			}
+		}
+
+		public event Action<JoinTeam> JoinTeam;
+		protected void OnJoinTeam(JoinTeam joinTeam)
+		{
+			if (JoinTeam != null) {
+				JoinTeam(joinTeam);
+			}
+		}
+
+		public event Action<PlayerEnteredGame> PlayerEnteredGame;
+		protected void OnPlayerEnteredGame(PlayerEnteredGame playerEnteredGame)
+		{
+			if (PlayerEnteredGame != null) {
+				PlayerEnteredGame(playerEnteredGame);
+			}
+		}
+
+		public event Action<Disconnected> Disconnected;
+		protected void OnDisconnected(Disconnected disconnected)
+		{
+			if (Disconnected != null) {
+				Disconnected(disconnected);
+			}
+		}
+
+		public event Action<NameChanged> NameChanged;
+		protected void OnNameChanged(NameChanged nameChanged)
+		{
+			if (NameChanged  != null) {
+				NameChanged(nameChanged);
+			}
+		}
+
+		public event Action<Connected> Connected;
+		protected void OnConnected(Connected connected)
+		{
+			if (Connected != null) {
+				Connected(connected);
+			}
+		}
+
+		public event Action<Suicide> Suicide;
+		protected void OnSuicide(Suicide suicide)
+		{
+			if (Suicide != null) {
+				Suicide(suicide);
+			}
+		}
+
+		public event Action<ServerCVarsStart> ServerCVarsStart;
+		protected void OnServerCVarsStart(ServerCVarsStart serverCVarsStart)
+		{
+			if (ServerCVarsStart != null) {
+				ServerCVarsStart(serverCVarsStart);
+			}
+		}
+
+		public event Action<ServerCVarsEnd> ServerCVarsEnd;
+		protected void OnServerCVarsEnd(ServerCVarsEnd serverCVarsEnd)
+		{
+			if (ServerCVarsEnd != null) {
+				ServerCVarsEnd(serverCVarsEnd);
+			}
+		}
+
+		public event Action<ServerCVarSet> ServerCVarSet;
+		protected void OnServerCVarSet(ServerCVarSet serverCVarSet)
+		{
+			if (ServerCVarSet != null) {
+				ServerCVarSet(serverCVarSet);
+			}
+		}
+
+		public event Action<StartedMap> StartedMap;
+		protected void OnStartedMap(StartedMap startedMap)
+		{
+			if (StartedMap != null) {
+				StartedMap(startedMap);
+			}
+		}
+
+		public event Action<TeamTrigger> TeamTrigger;
+		protected void OnTeamTrigger(TeamTrigger teamTrigger)
+		{
+			if (TeamTrigger != null) {
+				TeamTrigger(teamTrigger);
+			}
+		}
+
+		public event Action<WorldTrigger> WorldTrigger;
+		protected void OnWorldTrigger(WorldTrigger worldTrigger)
+		{
+			if (WorldTrigger != null) {
+				WorldTrigger(worldTrigger);
+			}
+		}
+
+		public event Action<LogFileStarted> LogFileStarted;
+		protected void OnLogFileStarted(LogFileStarted logFileStarted)
+		{
+			if (LogFileStarted != null) {
+				LogFileStarted(logFileStarted);
+			}
+		}
+
+		public event Action<LogFileClosed> LogFileClosed;
+		protected void OnLogFileClosed(LogFileClosed logFileClosed)
+		{
+			if (LogFileClosed != null) {
+				LogFileClosed(logFileClosed);
+			}
+		}
+
+		#endregion
+
+		public LogEvent UnsafeParse(string s)
 		{
 			str = s;
 			strLen = s.Length;
@@ -236,7 +412,7 @@ namespace Psi
 			CheckPrefixNumbers();
 			GetDate();
 
-			Base log = null;
+			LogEvent log = null;
 
 			IDictionary<string, string> dict = ReadOptionsBackwards();
 
@@ -251,13 +427,21 @@ namespace Psi
 					ReadPlayer();
 					if (Require(" with ")) {
 						log = new Attack(dateTime, player, GetPlayer(), ReadValue());
+						log.Options = dict;
+						OnAttack(log as Attack);
 					}
 				} else if (Require("say ")) {
 					log = new Say(dateTime, GetPlayer(), ReadValue());
+					log.Options = dict;
+					OnSay(log as Say);
 				} else if (Require("say_team ")) {
 					log = new SayTeam(dateTime, GetPlayer(), ReadValue());
+					log.Options = dict;
+					OnSayTeam(log as SayTeam);
 				} else if (Require("STEAM USERID validated")) {
 					log = new UserValidated(dateTime, GetPlayer());
+					log.Options = dict;
+					OnUserValidated(log as UserValidated);
 				} else if (Require("triggered ")) {
 					Player player = GetPlayer();
 					string trigger = ReadString();
@@ -266,37 +450,61 @@ namespace Psi
 						ReadPlayer();
 						Player target = GetPlayer();
 						log = new PlayerTriggerAgainst(dateTime, player, trigger, target);
+						log.Options = dict;
+						OnPlayerTriggerAgainst(log as PlayerTriggerAgainst);
 					} else  {
 						log = new PlayerTrigger(dateTime, player, trigger);
+						log.Options = dict;
+						OnPlayerTrigger(log as PlayerTrigger);
 					}
 
 				} else if (Require("killed ")) {
 				} else if (Require("joined team ")) {
 					log = new JoinTeam(dateTime, GetPlayer(), ReadValue());
+					log.Options = dict;
+					OnJoinTeam(log as JoinTeam);
 				} else if (Require("entered the game")) {
 					log = new PlayerEnteredGame(dateTime, GetPlayer());
+					log.Options = dict;
+					OnPlayerEnteredGame(log as PlayerEnteredGame);
 				} else if (Require("disconnected")) {
 					log = new Disconnected(dateTime, GetPlayer());
+					log.Options = dict;
+					OnDisconnected(log as Disconnected);
 				} else if (Require("changed name to ")) {
 					log = new NameChanged(dateTime, GetPlayer(), ReadValue());
+					log.Options = dict;
+					OnNameChanged(log as NameChanged);
 				} else if (Require("connected, address ")) {
 					log = new Connected(dateTime, GetPlayer(), ReadValue());
+					log.Options = dict;
+					OnConnected(log as Connected);
 				} else if (Require("committed suicide with ")) {
 					log = new Suicide(dateTime, GetPlayer(), ReadValue());
+					log.Options = dict;
+					OnSuicide(log as Suicide);
 				}
 				break;
 			case 'S':
 				if (Require("Server cvars start")) {
-					log = new ServerCvarsStart(dateTime);
+					log = new ServerCVarsStart(dateTime);
+					log.Options = dict;
+					OnServerCVarsStart(log as ServerCVarsStart);
 				} else if (Require("Server cvars end")) {
-					log = new ServerCvarsEnd(dateTime);
+					log = new ServerCVarsEnd(dateTime);
+					log.Options = dict;
+					OnServerCVarsEnd(log as ServerCVarsEnd);
 				} else if (Require("Server cvar ")) {
 					string cvar = ReadString();
 					if (Require(" = ")) {
 						log = new ServerCVarSet(dateTime, cvar, ReadValue());
+						log.Options = dict;
+						OnServerCVarSet(log as ServerCVarSet);
 					}
 				} else if (Require("Started map ")) {
 					log = new StartedMap(dateTime, ReadValue());
+					log.Options = dict;
+					OnStartedMap(log as StartedMap);
 				}
 			break;
 			case 'T':
@@ -304,19 +512,27 @@ namespace Psi
 					string team = ReadString();
 					if (Require(" triggered ")) {
 						log = new TeamTrigger(dateTime, team, ReadValue());
+						log.Options = dict;
+						OnTeamTrigger(log as TeamTrigger);
 					}
 				}
 			break;
 			case 'W':
 				if (Require("World triggered ")) {
 					log = new WorldTrigger(dateTime, ReadValue());
+					log.Options = dict;
+					OnWorldTrigger(log as WorldTrigger);
 				}
 				break;
 			case 'L':
 				if (Require("Log file closed")) {
 					log = new LogFileClosed(dateTime);
+					log.Options = dict;
+					OnLogFileClosed(log as LogFileClosed);
 				} else if (Require("Log file started")) {
 					log = new LogFileStarted(dateTime);
+					log.Options = dict;
+					OnLogFileStarted(log as LogFileStarted);
 				}
 				break;
 			case '[':
@@ -342,16 +558,16 @@ namespace Psi
 				return null;
 			}
 
-			log.Options = dict;
-
 			if (--pos != endpos) {
 				throw new Exception();
 			}
 
+			OnLogEvent(log);
+
 			return log;
 		}
 
-		public static Base Parse(string s)
+		public LogEvent Parse(string s)
 		{
 			try {
 				return UnsafeParse(s);
