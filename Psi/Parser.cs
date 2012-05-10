@@ -293,7 +293,7 @@ namespace Psi
 				} else if (Require("Server cvar ")) {
 					string cvar = ReadString();
 					if (Require(" = ")) {
-						log = new ServerCvarSet(dateTime, cvar, ReadValue());
+						log = new ServerCVarSet(dateTime, cvar, ReadValue());
 					}
 				} else if (Require("Started map ")) {
 					log = new StartedMap(dateTime, ReadValue());
