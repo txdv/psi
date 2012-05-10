@@ -24,6 +24,10 @@ namespace Psi.App
 			case "bench":
 				Benchmark.Run(args[1], 5);
 				break;
+			case "count":
+				var count = new LogCount();
+				count.Run(args[1]);
+				break;
 			}
 		}
 	}
