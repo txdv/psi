@@ -45,8 +45,13 @@ namespace Psi.App
 
 		void Print()
 		{
+			var total = count.Sum((kvp) => kvp.Value);
+
 			foreach (var kvp in count.OrderByDescending((kvp) => kvp.Value)) {
-				Console.WriteLine("{0} {1}", Space(kvp.Key.ToString().Substring(4), ' ', 25), kvp.Value);
+				var perc = Math.Floor((((double)kvp.Value)/total) * 100 * 100) / 100;
+				Console.WriteLine("{0} {1}",
+				                  Space(kvp.Key.ToString().Substring(4), ' ', 25),
+				                  perc);
 			}
 		}
 	}
