@@ -25,8 +25,8 @@ namespace Psi.App
 
 		public override void ReadFile(FileInfo fi)
 		{
-			Console.WriteLine("{0} ({1}/{2})", fi.FullName, CurrentFileNumber, TotalFiles);
 			base.ReadFile(fi);
+			Console.WriteLine("{0} ({1}/{2})", fi.FullName, CurrentFileNumber, TotalFiles);
 		}
 
 		public override void Run(string directory)
