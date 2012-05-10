@@ -17,16 +17,22 @@ namespace Psi.App
 
 			Parser = new Parser();
 
+			LogProvider logProvider = null;
+
 			switch (args[0]) {
 			case "test":
-				Test.Run(args[1]);
+				logProvider = new Test();
 				break;
 			case "bench":
-				new Benchmark().Run(args[1]);
+				logProvider = new Benchmark();
 				break;
 			case "count":
-				new LogCount().Run(args[1]);
+				logProvider = new LogCount();
 				break;
+			}
+
+			if (logProvider != null) {
+				logProvider.Run(args[1]);
 			}
 		}
 	}
