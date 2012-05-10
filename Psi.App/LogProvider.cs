@@ -19,6 +19,7 @@ namespace Psi.App
 			TotalFiles = Files.Length;
 
 			foreach (FileInfo fi in Files) {
+				CurrentFile = fi;
 				CurrentFileNumber++;
 				ReadFile(fi);
 			}
@@ -28,7 +29,6 @@ namespace Psi.App
 
 		public virtual void ReadFile(FileInfo fi)
 		{
-			CurrentFile = fi;
 			StreamReader sr = null;
 			try {
 				sr = new StreamReader(File.Open(fi.FullName, FileMode.Open));
