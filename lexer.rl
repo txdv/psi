@@ -13,29 +13,34 @@ class Parser
 	bool nameFirst = false;
 	bool firstValue = true;
 
+	int Count(byte[] data, int start, int count)
+	{
+		int res = 0;
+		for (int i = 0; i < count; i++) {
+			res *= 10;
+			res += (data[start + i] - '0');
+		}
+		return res;
+	}
+
 	%%{
 
 	machine foo;
 
-	action year {
-		if (Date != null) {
-			Date(new ArraySegment<byte>(data, fpc - 6, 2),
-				 new ArraySegment<byte>(data, fpc - 3, 2),
-				 new ArraySegment<byte>(data, fpc,     4));
+	date = (digit digit) '/' (digit digit) '/' (digit digit digit digit);
+	time = (digit digit) ':' (digit digit) ':' (digit digit) > {
+		if (DateTime != null) {
+			var t = new DateTime(
+				Count(data, fpc - 13, 4),
+				Count(data, fpc - 19, 2),
+				Count(data, fpc - 16, 2),
+				Count(data, fpc - 6, 2),
+				Count(data, fpc - 3, 2),
+				Count(data, fpc,     2)
+			);
+			DateTime(t);
 		}
-	}
-
-	action time {
-		if (Time != null) {
-			Time(new ArraySegment<byte>(data, fpc - 6, 2),
-				 new ArraySegment<byte>(data, fpc - 3, 2),
-				 new ArraySegment<byte>(data, fpc,     2));
-		}
-	}
-
-
-	date = (digit digit) '/' (digit digit) '/' (digit digit digit digit) > year;
-	time = (digit digit) ':' (digit digit) ':' (digit digit) > time;
+	};
 	start = 'L ' date ' - ' time ': ';
 
 	action option_name_start {
@@ -126,8 +131,6 @@ class Parser
 		}
 	}
 
-	public event Action<ArraySegment<byte>,ArraySegment<byte>,ArraySegment<byte>> Date;
-	public event Action<ArraySegment<byte>,ArraySegment<byte>,ArraySegment<byte>> Time;
 	public event Action<DateTime> DateTime;
 	public event Action<ArraySegment<byte>> OptionName;
 	public event Action<ArraySegment<byte>> OptionValue;
