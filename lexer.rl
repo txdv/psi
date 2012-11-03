@@ -8,6 +8,10 @@ class Parser
 	ArraySegment<byte> value;
 
 	int tmp = 0;
+	int tmp1 = 0;
+	int tmp2 = 0;
+	int tmp3 = 0;
+	int tmp4 = 0;
 
 	int name_start, value_start;
 	bool nameFirst = false;
@@ -116,11 +120,22 @@ class Parser
 		}
 	};
 
-	worldtrigger = 'World triggered "' % { tmp = fpc; } (char *) '"' @ {
+	world_trigger = 'World triggered "' % { tmp = fpc; } (char *) '"' @ {
 		if (WorldTrigger != null) {
 			WorldTrigger(new ArraySegment<byte>(data, tmp, fpc - tmp));
 		}
 		tmp = 0;
+	};
+
+	team_trigger = 'Team "' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" triggered "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
+		if (TeamTrigger != null) {
+			TeamTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+			            new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
+		}
+		tmp1 = 0;
+		tmp2 = 0;
+		tmp3 = 0;
+		tmp4 = 0;
 	};
 
 	main := (start (
@@ -129,7 +144,8 @@ class Parser
 			| servers_cvars_start
 			| server_cvar
 			| server_cvar_end
-			| worldtrigger
+			| world_trigger
+			| team_trigger
 		) (option*)) > {
 			if (End != null) {
 				End();
@@ -164,6 +180,7 @@ class Parser
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> ServerCVar;
 	public event Action ServerCVarsEnd;
 	public event Action<ArraySegment<byte>> WorldTrigger;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamTrigger;
 
 	#endregion
 
