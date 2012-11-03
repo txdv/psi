@@ -14,7 +14,6 @@ class Parser
 		Print(Encoding.ASCII, arr);
 	}
 
-	ArraySegment<byte> name;
 	ArraySegment<byte> value;
 	ArraySegment<byte> target;
 
@@ -254,7 +253,7 @@ class Parser
 
 	%% write data;
 
-	int cs, ts, te, act;
+	int cs;
 
 	public Parser()
 	{
