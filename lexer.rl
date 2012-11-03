@@ -190,6 +190,18 @@ class Parser
 				       target,
 				       value);
 			}
+		} |
+		'say ' value @ {
+			if (Say != null) {
+				Say(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				    value);
+			}
+		} |
+		'say_team ' value @ {
+			if (TeamSay != null) {
+				TeamSay(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				        value);
+			}
 		}
 	);
 
@@ -246,6 +258,8 @@ class Parser
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Killed;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> Say;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamSay;
 
 	#endregion
 
