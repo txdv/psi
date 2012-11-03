@@ -108,11 +108,18 @@ class Parser
 		tmp = 0;
 	};
 
+	server_cvar_end = 'Server cvars end' @ {
+		if (ServerCVarsEnd != null) {
+			ServerCVarsEnd();
+		}
+	};
+
 	main := start (
 			  log_file_started
 			| loading_map
 			| servers_cvars_start
 			| server_cvar
+			| server_cvar_end
 		) (option*);
 	}%%
 
@@ -132,11 +139,18 @@ class Parser
 	}
 
 	public event Action<DateTime> DateTime;
+
 	public event Action<ArraySegment<byte>> OptionName;
 	public event Action<ArraySegment<byte>> OptionValue;
+
+	#region Log Message Types
+
 	public event Action<ArraySegment<byte>> LoadingMap;
 	public event Action ServerCVarsStart;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> ServerCVar;
+	public event Action ServerCVarsEnd;
+
+	#endregion
 
 	public void Execute(ArraySegment<byte> buf)
 	{
