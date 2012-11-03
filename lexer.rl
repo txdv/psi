@@ -165,7 +165,7 @@ class Parser
 				PlayerJoinTeam(value);
 			}
 		} |
-		' triggered ' value @ {
+		'triggered ' value @ {
 			if (PlayerTrigger != null) {
 				PlayerTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 				              value);
