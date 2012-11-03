@@ -4,16 +4,6 @@ using System.Text;
 
 class Parser
 {
-	public static void Print(Encoding enc, ArraySegment<byte> arr)
-	{
-		Console.WriteLine(enc.GetString(arr.Array, arr.Offset, arr.Count));
-	}
-
-	public static void Print(ArraySegment<byte> arr)
-	{
-		Print(Encoding.ASCII, arr);
-	}
-
 	ArraySegment<byte> value;
 	ArraySegment<byte> target;
 
