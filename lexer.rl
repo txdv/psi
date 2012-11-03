@@ -22,6 +22,8 @@ class Parser
 	int tmp2 = 0;
 	int tmp3 = 0;
 	int tmp4 = 0;
+	int tmp5 = 0;
+	int tmp6 = 0;
 
 	int name_start, value_start;
 	bool nameFirst = false;
@@ -187,11 +189,11 @@ class Parser
 				              value);
 			}
 		} |
-		'attacked ' target ' with ' value @ {
+		'attacked "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '" with "' % { tmp5 = fpc; } (char *) % { tmp6 = fpc; } '"' @ {
 			if (Attack != null) {
 				Attack(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-				       target,
-				       value);
+				       new ArraySegment<byte>(data, tmp3, tmp4 - tmp3),
+				       new ArraySegment<byte>(data, tmp5, tmp6 - tmp5));
 			}
 		} |
 		'killed ' target ' with ' value @ {
