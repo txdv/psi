@@ -143,16 +143,26 @@ class Parser
 		}
 	};
 
+	value = '"' % { value_start = fpc; } (char *) '"' @ {
+		value = new ArraySegment<byte>(data, value_start, fpc - value_start);
+		value_start = 0;
+	};
+
 	player_events = '"' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" ' (
-		'connected, address "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
+		'connected, address ' value @ {
 			if (PlayerConnected != null) {
 				PlayerConnected(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-				                new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
+				                value);
 			}
 		} |
 		'entered the game' @ {
 			if (PlayerEnteredGame != null) {
 				PlayerEnteredGame(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
+			}
+		} |
+		'joined team ' value @ {
+			if (PlayerJoinedTeam != null) {
+				PlayerJoinedTeam(value);
 			}
 		}
 	);
@@ -206,6 +216,7 @@ class Parser
 
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerConnected;
 	public event Action<ArraySegment<byte>> PlayerEnteredGame;
+	public event Action<ArraySegment<byte>> PlayerJoinedTeam;
 
 	#endregion
 
