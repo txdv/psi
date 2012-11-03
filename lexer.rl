@@ -164,6 +164,12 @@ class Parser
 			if (PlayerJoinTeam != null) {
 				PlayerJoinTeam(value);
 			}
+		} |
+		' triggered ' value @ {
+			if (PlayerTrigger != null) {
+				PlayerTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				              value);
+			}
 		}
 	);
 
@@ -217,6 +223,7 @@ class Parser
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerConnect;
 	public event Action<ArraySegment<byte>> PlayerEnterGame;
 	public event Action<ArraySegment<byte>> PlayerJoinTeam;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
 
 	#endregion
 
