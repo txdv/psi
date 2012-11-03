@@ -11,6 +11,21 @@ static class EncodingEtensions
 	}
 }
 
+class Util
+{
+	static string[] sizes = { "B", "KB", "MB", "GB" };
+
+	public static string Readable(int size)
+	{
+		int order = 0;
+		while (size >= 1024 && order + 1 < size) {
+			order++;
+			size = size/1024;
+		}
+		return string.Format("{0:0.##} {1}", size, sizes[order]);
+	}
+}
+
 class Benchmark
 {
 	public static void Print(Encoding enc, ArraySegment<byte> arr)
@@ -53,8 +68,17 @@ class Benchmark
 			}
 			Parse(File.OpenRead(file));
 		}
-		Console.WriteLine(DateTime.Now - now);
-		Test();
+
+
+		Console.WriteLine("Fetched {0} messages with the total size of {1} in {2}",
+			queue.Count, Util.Readable(Size), DateTime.Now - now);
+
+		now = DateTime.Now;
+		while (queue.Count > 0) {
+			var data = queue.Dequeue();
+			Parser.Execute(data);
+		}
+		Console.WriteLine("Messages parsed in {0}", DateTime.Now - now);
 	}
 
 	int i = 0;
@@ -71,23 +95,12 @@ class Benchmark
 			queue.Enqueue(new ArraySegment<byte>(bytes));
 			Size += bytes.Length;
 			if (i == 0) {
-				Console.WriteLine("{0}/{1}", Size, MaxSize);
+				Console.WriteLine("{0}/{1}", Util.Readable(Size), Util.Readable(MaxSize));
 			}
 			i++;
 			i %= 10000;
 		}
 		file.Close();
-	}
-
-	void Test()
-	{
-		Console.WriteLine(queue.Count);
-		var now = DateTime.Now;
-		while (queue.Count > 0) {
-			var data = queue.Dequeue();
-			Parser.Execute(data);
-		}
-		Console.WriteLine(DateTime.Now - now);
 	}
 
 	public static void Main(string[] args)
