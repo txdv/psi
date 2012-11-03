@@ -27,6 +27,8 @@ class Parser
 
 	machine foo;
 
+	char = (digit | alpha | '_');
+
 	date = (digit digit) '/' (digit digit) '/' (digit digit digit digit);
 	time = (digit digit) ':' (digit digit) ':' (digit digit) > {
 		if (DateTime != null) {
@@ -114,13 +116,25 @@ class Parser
 		}
 	};
 
-	main := start (
+	worldtrigger = 'World triggered "' % { tmp = fpc; } (char *) '"' @ {
+		if (WorldTrigger != null) {
+			WorldTrigger(new ArraySegment<byte>(data, tmp, fpc - tmp));
+		}
+		tmp = 0;
+	};
+
+	main := (start (
 			  log_file_started
 			| loading_map
 			| servers_cvars_start
 			| server_cvar
 			| server_cvar_end
-		) (option*);
+			| worldtrigger
+		) (option*)) > {
+			if (End != null) {
+				End();
+			}
+		};
 	}%%
 
 	%% write data;
@@ -149,8 +163,11 @@ class Parser
 	public event Action ServerCVarsStart;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> ServerCVar;
 	public event Action ServerCVarsEnd;
+	public event Action<ArraySegment<byte>> WorldTrigger;
 
 	#endregion
+
+	public event Action End;
 
 	public void Execute(ArraySegment<byte> buf)
 	{
