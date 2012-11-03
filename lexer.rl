@@ -149,6 +149,11 @@ class Parser
 				PlayerConnected(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 				                new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
 			}
+		} |
+		'entered the game' @ {
+			if (PlayerEnteredGame != null) {
+				PlayerEnteredGame(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
+			}
 		}
 	);
 
@@ -200,6 +205,7 @@ class Parser
 	public event Action<ArraySegment<byte>> StartedMap;
 
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerConnected;
+	public event Action<ArraySegment<byte>> PlayerEnteredGame;
 
 	#endregion
 
