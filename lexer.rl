@@ -138,6 +138,13 @@ class Parser
 		tmp4 = 0;
 	};
 
+	started_map = 'Started map "' % { tmp = fpc; } (char *) '"' @ {
+		if (StartedMap != null) {
+			StartedMap(new ArraySegment<byte>(data, tmp, fpc - tmp));
+		}
+		tmp = 0;
+	};
+
 	main := (start (
 			  log_file_started
 			| loading_map
@@ -146,6 +153,7 @@ class Parser
 			| server_cvar_end
 			| world_trigger
 			| team_trigger
+			| started_map
 		) (option*)) > {
 			if (End != null) {
 				End();
@@ -181,6 +189,7 @@ class Parser
 	public event Action ServerCVarsEnd;
 	public event Action<ArraySegment<byte>> WorldTrigger;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamTrigger;
+	public event Action<ArraySegment<byte>> StartedMap;
 
 	#endregion
 
