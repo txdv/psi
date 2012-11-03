@@ -16,6 +16,7 @@ class Parser
 
 	ArraySegment<byte> name;
 	ArraySegment<byte> value;
+	ArraySegment<byte> target;
 
 	int tmp1 = 0;
 	int tmp2 = 0;
@@ -148,6 +149,11 @@ class Parser
 		value_start = 0;
 	};
 
+	target = '"' % { value_start = fpc; } (char *) '"' @ {
+		target = new ArraySegment<byte>(data, value_start, fpc - value_start);
+		value_start = 0;
+	};
+
 	player_events = '"' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" ' (
 		'connected, address ' value @ {
 			if (PlayerConnect != null) {
@@ -169,6 +175,13 @@ class Parser
 			if (PlayerTrigger != null) {
 				PlayerTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 				              value);
+			}
+		} |
+		'attacked ' target ' with ' value @ {
+			if (Attack != null) {
+				Attack(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				       target,
+				       value);
 			}
 		}
 	);
@@ -224,6 +237,7 @@ class Parser
 	public event Action<ArraySegment<byte>> PlayerEnterGame;
 	public event Action<ArraySegment<byte>> PlayerJoinTeam;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
 
 	#endregion
 
