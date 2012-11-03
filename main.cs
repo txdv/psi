@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using Psi;
+
 static class EncodingEtensions
 {
 	public static string GetString(this Encoding enc, ArraySegment<byte> segment)
@@ -52,11 +54,11 @@ class Benchmark
 	}
 	public Benchmark(int maxSize)
 	{
-		Parser = new Parser();
+		Parser = new RawParser();
 		MaxSize = maxSize;
 	}
 
-	public Parser Parser { get; protected set; }
+	public RawParser Parser { get; protected set; }
 
 	Queue<ArraySegment<byte>> queue = new Queue<ArraySegment<byte>>();
 	Queue<FileInfo> fqueue = new Queue<FileInfo>();
