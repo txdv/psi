@@ -183,6 +183,13 @@ class Parser
 				       target,
 				       value);
 			}
+		} |
+		'killed ' target ' with ' value @ {
+			if (Killed != null) {
+				Killed(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				       target,
+				       value);
+			}
 		}
 	);
 
@@ -238,6 +245,7 @@ class Parser
 	public event Action<ArraySegment<byte>> PlayerJoinTeam;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Killed;
 
 	#endregion
 
