@@ -89,7 +89,17 @@ class Parser
 
 	option = (' ('alpha) @ option_name_start (alpha*) % option_name_end ' "' any @ option_value_start (any *) % option_value_end '")';
 
-	log_file_started = 'Log file started';
+	log_file_started = 'Log file started' @ {
+		if (LogFileStart != null) {
+			LogFileStart();
+		}
+	};
+
+	log_file_closed = 'Log file closed' @ {
+		if (LogFileEnd != null) {
+			LogFileEnd();
+		}
+	};
 
 	action loading_map_start {
 		name_start = fpc;
@@ -167,13 +177,13 @@ class Parser
 			}
 		} |
 		'entered the game' @ {
-			if (PlayerEnterGame != null) {
-				PlayerEnterGame(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
+			if (EnterGame != null) {
+				EnterGame(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
 			}
 		} |
 		'joined team ' value @ {
-			if (PlayerJoinTeam != null) {
-				PlayerJoinTeam(value);
+			if (JoinTeam != null) {
+				JoinTeam(value);
 			}
 		} |
 		'triggered ' value @ {
@@ -207,11 +217,29 @@ class Parser
 				TeamSay(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 				        value);
 			}
+		} |
+		'STEAM USERID validated' @ {
+			if (Validate != null) {
+				Validate(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
+			}
+		} |
+		'changed name to ' value @ {
+			if (NameChange != null) {
+				NameChange(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				           value);
+			}
+		} |
+		'committed suicide with ' value @ {
+			if (Suicide != null) {
+				Suicide(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				        value);
+			}
 		}
 	);
 
 	main := (start (
 			  log_file_started
+			| log_file_closed
 			| loading_map
 			| servers_cvars_start
 			| server_cvar
@@ -249,23 +277,31 @@ class Parser
 
 	#region Log Message Types
 
-	public event Action<ArraySegment<byte>> LoadingMap;
+	public event Action LogFileStart;
+	public event Action LogFileEnd;
+
 	public event Action ServerCVarsStart;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> ServerCVar;
 	public event Action ServerCVarsEnd;
+
+	public event Action<ArraySegment<byte>> LoadingMap;
+	public event Action<ArraySegment<byte>> StartedMap;
+
 	public event Action<ArraySegment<byte>> WorldTrigger;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamTrigger;
-	public event Action<ArraySegment<byte>> StartedMap;
 
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> Connect;
 	public event Action<ArraySegment<byte>> Disconnect;
-	public event Action<ArraySegment<byte>> PlayerEnterGame;
-	public event Action<ArraySegment<byte>> PlayerJoinTeam;
+	public event Action<ArraySegment<byte>> EnterGame;
+	public event Action<ArraySegment<byte>> JoinTeam;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Killed;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> Say;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamSay;
+	public event Action<ArraySegment<byte>> Validate;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> NameChange;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> Suicide;
 
 	#endregion
 
