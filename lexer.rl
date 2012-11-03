@@ -57,10 +57,12 @@ class Parser
 
 	charnos = (any - (' '));
 
-	option = ' (' % { tmp1 = fpc; } (charnos *) % { tmp2 = fpc; } ' "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '")' @ {
+	option = ' (' % { tmp1 = fpc; } (charnos *) % { tmp2 = fpc; } (')' @ { tmp3 = 0; tmp4 = 0; } | ' "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '")') @ {
 		if (Option != null) {
 			Option(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-			       new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
+			       (tmp3 == tmp4 && tmp4 == 0 ?
+			           default(ArraySegment<byte>) :
+			           new ArraySegment<byte>(data, tmp3, tmp4 - tmp3)));
 		}
 	};
 
