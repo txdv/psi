@@ -14,9 +14,7 @@ class Parser
 	int tmp5 = 0;
 	int tmp6 = 0;
 
-	int name_start, value_start;
-	bool nameFirst = false;
-	bool firstValue = true;
+	int value_start;
 
 	public static int Number(ArraySegment<byte> arr)
 	{
@@ -278,7 +276,6 @@ class Parser
 		byte[] data = buf.Array;
 		int p = buf.Offset;
 		int pe = buf.Offset + buf.Count;
-		int eof = buf.Count == 0 ? buf.Offset : -1;
 		%% write exec;
 	}
 }
