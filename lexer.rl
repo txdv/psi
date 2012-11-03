@@ -17,7 +17,6 @@ class Parser
 	ArraySegment<byte> name;
 	ArraySegment<byte> value;
 
-	int tmp = 0;
 	int tmp1 = 0;
 	int tmp2 = 0;
 	int tmp3 = 0;
@@ -108,20 +107,15 @@ class Parser
 		}
 	};
 
-	server_cvar = 'Server cvar "'(any *) % {
-		if (tmp == 0) {
-			tmp = fpc;
-		}
-	}'" = "'(any*)'"' @ {
+	server_cvar = 'Server cvar "'(char *) % { tmp1 = fpc; }'" = "'(char *)'"' @ {
 		if (ServerCVar != null) {
 			int name_start = start + 38;
-			int name_len = tmp - name_start;
+			int name_len = tmp1 - name_start;
 			int value_start = name_start + name_len + 5;
 			int value_len = fpc - value_start;
 			ServerCVar(new ArraySegment<byte>(data, name_start, name_len),
 			           new ArraySegment<byte>(data, value_start, value_len));
 		}
-		tmp = 0;
 	};
 
 	server_cvar_end = 'Server cvars end' @ {
@@ -130,11 +124,10 @@ class Parser
 		}
 	};
 
-	world_trigger = 'World triggered "' % { tmp = fpc; } (char *) '"' @ {
+	world_trigger = 'World triggered "' % { tmp1 = fpc; } (char *) '"' @ {
 		if (WorldTrigger != null) {
-			WorldTrigger(new ArraySegment<byte>(data, tmp, fpc - tmp));
+			WorldTrigger(new ArraySegment<byte>(data, tmp1, fpc - tmp1));
 		}
-		tmp = 0;
 	};
 
 	team_trigger = 'Team "' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" triggered "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
@@ -142,17 +135,12 @@ class Parser
 			TeamTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 			            new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
 		}
-		tmp1 = 0;
-		tmp2 = 0;
-		tmp3 = 0;
-		tmp4 = 0;
 	};
 
-	started_map = 'Started map "' % { tmp = fpc; } (char *) '"' @ {
+	started_map = 'Started map "' % { tmp1 = fpc; } (char *) '"' @ {
 		if (StartedMap != null) {
-			StartedMap(new ArraySegment<byte>(data, tmp, fpc - tmp));
+			StartedMap(new ArraySegment<byte>(data, tmp1, fpc - tmp1));
 		}
-		tmp = 0;
 	};
 
 	player_events = '"' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" ' (
