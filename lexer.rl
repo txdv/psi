@@ -4,6 +4,16 @@ using System.Text;
 
 class Parser
 {
+	public static void Print(Encoding enc, ArraySegment<byte> arr)
+	{
+		Console.WriteLine(enc.GetString(arr.Array, arr.Offset, arr.Count));
+	}
+
+	public static void Print(ArraySegment<byte> arr)
+	{
+		Print(Encoding.ASCII, arr);
+	}
+
 	ArraySegment<byte> name;
 	ArraySegment<byte> value;
 
@@ -31,7 +41,7 @@ class Parser
 
 	machine foo;
 
-	char = (digit | alpha | '_');
+	char = (any - ('"'));
 
 	date = (digit digit) '/' (digit digit) '/' (digit digit digit digit);
 	time = (digit digit) ':' (digit digit) ':' (digit digit) > {
@@ -145,6 +155,15 @@ class Parser
 		tmp = 0;
 	};
 
+	player_events = '"' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" ' (
+		'connected, address "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
+			if (PlayerConnected != null) {
+				PlayerConnected(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				                new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
+			}
+		}
+	);
+
 	main := (start (
 			  log_file_started
 			| loading_map
@@ -154,6 +173,7 @@ class Parser
 			| world_trigger
 			| team_trigger
 			| started_map
+			| player_events
 		) (option*)) > {
 			if (End != null) {
 				End();
@@ -190,6 +210,8 @@ class Parser
 	public event Action<ArraySegment<byte>> WorldTrigger;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamTrigger;
 	public event Action<ArraySegment<byte>> StartedMap;
+
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerConnected;
 
 	#endregion
 
