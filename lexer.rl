@@ -40,7 +40,7 @@ class Parser
 
 	%%{
 
-	machine foo;
+	machine psi;
 
 	char = (any - ('"'));
 
@@ -60,35 +60,14 @@ class Parser
 	};
 	start = 'L ' date ' - ' time ': ';
 
-	action option_name_start {
-		name_start = fpc;
-		nameFirst = true;
-	}
+	charnos = (any - (' '));
 
-	action option_name_end {
-		if (OptionName != null) {
-			OptionName(new ArraySegment<byte>(data, name_start, fpc - name_start));
+	option = ' (' % { tmp1 = fpc; } (charnos *) % { tmp2 = fpc; } ' "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '")' @ {
+		if (Option != null) {
+			Option(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+			       new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
 		}
-	}
-
-	action option_value_start {
-		value_start = fpc;
-	}
-
-	action option_value_end {
-		if (firstValue) {
-			OnOptionValue(new ArraySegment<byte>(data, value_start, fpc - value_start));
-		firstValue = false;
-		} else {
-			if (nameFirst) {
-				nameFirst = false;
-			} else {
-				OnOptionValue(new ArraySegment<byte>(data, value_start, fpc - value_start));
-			}
-		}
-	}
-
-	option = (' ('alpha) @ option_name_start (alpha*) % option_name_end ' "' any @ option_value_start (any *) % option_value_end '")';
+	};
 
 	log_file_started = 'Log file started' @ {
 		if (LogFileStart != null) {
@@ -259,17 +238,9 @@ class Parser
 	{
 	}
 
-	void OnOptionValue(ArraySegment<byte> seg)
-	{
-		if (OptionValue != null) {
-			OptionValue(seg);
-		}
-	}
-
 	public event Action<DateTime> DateTime;
 
-	public event Action<ArraySegment<byte>> OptionName;
-	public event Action<ArraySegment<byte>> OptionValue;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> Option;
 
 	#region Log Message Types
 
