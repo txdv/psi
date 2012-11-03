@@ -156,9 +156,14 @@ class Parser
 
 	player_events = '"' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" ' (
 		'connected, address ' value @ {
-			if (PlayerConnect != null) {
-				PlayerConnect(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-				              value);
+			if (Connect != null) {
+				Connect(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				        value);
+			}
+		} |
+		'disconnected' @ {
+			if (Disconnect != null) {
+				Disconnect(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
 			}
 		} |
 		'entered the game' @ {
@@ -252,7 +257,8 @@ class Parser
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamTrigger;
 	public event Action<ArraySegment<byte>> StartedMap;
 
-	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerConnect;
+	public event Action<ArraySegment<byte>, ArraySegment<byte>> Connect;
+	public event Action<ArraySegment<byte>> Disconnect;
 	public event Action<ArraySegment<byte>> PlayerEnterGame;
 	public event Action<ArraySegment<byte>> PlayerJoinTeam;
 	public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
