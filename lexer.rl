@@ -18,7 +18,12 @@ class Parser
 	bool nameFirst = false;
 	bool firstValue = true;
 
-	int Count(byte[] data, int start, int count)
+	public static int Number(ArraySegment<byte> arr)
+	{
+		return Number(arr.Array, arr.Offset, arr.Count);
+	}
+
+	public static int Number(byte[] data, int start, int count)
 	{
 		int res = 0;
 		for (int i = 0; i < count; i++) {
@@ -38,12 +43,12 @@ class Parser
 	time = (digit digit) ':' (digit digit) ':' (digit digit) > {
 		if (DateTime != null) {
 			var t = new DateTime(
-				Count(data, fpc - 13, 4),
-				Count(data, fpc - 19, 2),
-				Count(data, fpc - 16, 2),
-				Count(data, fpc - 6, 2),
-				Count(data, fpc - 3, 2),
-				Count(data, fpc,     2)
+				Number(data, fpc - 13, 4),
+				Number(data, fpc - 19, 2),
+				Number(data, fpc - 16, 2),
+				Number(data, fpc - 6,  2),
+				Number(data, fpc - 3,  2),
+				Number(data, fpc,      2)
 			);
 			DateTime(t);
 		}
