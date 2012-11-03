@@ -7,6 +7,9 @@ static class EncodingEtensions
 {
 	public static string GetString(this Encoding enc, ArraySegment<byte> segment)
 	{
+		if (segment == default(ArraySegment<byte>)) {
+			return null;
+		}
 		return enc.GetString(segment.Array, segment.Offset, segment.Count);
 	}
 }
@@ -30,7 +33,7 @@ class Benchmark
 {
 	public static void Print(Encoding enc, ArraySegment<byte> arr)
 	{
-		Console.WriteLine(enc.GetString(arr.Array, arr.Offset, arr.Count));
+		Console.Write(enc.GetString(arr.Array, arr.Offset, arr.Count));
 	}
 
 	public static void Print(ArraySegment<byte> arr)
@@ -38,6 +41,15 @@ class Benchmark
 		Print(Encoding.ASCII, arr);
 	}
 
+	public static void Puts(Encoding enc, ArraySegment<byte> arr)
+	{
+		Console.WriteLine(enc.GetString(arr.Array, arr.Offset, arr.Count));
+	}
+
+	public static void Puts(ArraySegment<byte> arr)
+	{
+		Puts(Encoding.ASCII, arr);
+	}
 	public Benchmark(int maxSize)
 	{
 		Parser = new Parser();
@@ -89,6 +101,8 @@ class Benchmark
 			f.CopyTo(ms);
 			f.Close();
 		}
+
+		Console.WriteLine("Slicing the lines");
 
 		int last = 0;
 		for (int i = 0; i < Size; i++) {
