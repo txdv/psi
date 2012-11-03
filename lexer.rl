@@ -101,16 +101,11 @@ class Parser
 		}
 	};
 
-	action loading_map_start {
-		name_start = fpc;
-	}
-	action loading_map_end {
+	loading_map = 'Loading map "' % { tmp1 = fpc; } (char *) '"' @ {
 		if (LoadingMap != null) {
-			LoadingMap(new ArraySegment<byte>(data, name_start, fpc - name_start));
+			LoadingMap(new ArraySegment<byte>(data, tmp1, fpc - tmp1));
 		}
-	}
-
-	loading_map = 'Loading map "' % loading_map_start (any *) % loading_map_end '"';
+	};
 
 	servers_cvars_start = 'Server cvars start' @ {
 		if (ServerCVarsStart != null) {
