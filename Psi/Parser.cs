@@ -15,25 +15,25 @@ namespace Psi
 		private static bool CheckPrefix()
 		{
 			return str[0]  == 'L'
-			    && str[1]  == ' '
-			    && str[4]  == '/'
-			    && str[7]  == '/'
-			    && str[12] == ' '
-			    && str[13] == '-'
-			    && str[14] == ' '
-			    && str[17] == ':'
-			    && str[20] == ':'
-			    && str[23] == ':'
-			    && str[24] == ' ';
+			     && str[1]  == ' '
+			     && str[4]  == '/'
+			     && str[7]  == '/'
+			     && str[12] == ' '
+			     && str[13] == '-'
+			     && str[14] == ' '
+			     && str[17] == ':'
+			     && str[20] == ':'
+			     && str[23] == ':'
+			     && str[24] == ' ';
 		}
 
 		private static bool CheckPrefixNumbers()
 		{
-		// year
-		return str[8]  >= '0' && str[8] <= '9'
-		    && str[9]  >= '0' && str[9] <= '9'
-		    && str[10] >= '0' && str[10] <= '9'
-		    && str[11] >= '0' && str[11] <= '9';
+			// year
+			return str[8]  >= '0' && str[8] <= '9'
+			    && str[9]  >= '0' && str[9] <= '9'
+			    && str[10] >= '0' && str[10] <= '9'
+			    && str[11] >= '0' && str[11] <= '9';
 			// TODO: month and day
 		}
 
