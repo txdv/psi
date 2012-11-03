@@ -25,14 +25,6 @@ class Parser
 		}
 	}
 
-	action hour {
-		hour = new ArraySegment<byte>(data, fpc, 2);
-	}
-
-	action minute {
-		minute = new ArraySegment<byte>(data, fpc, 2);
-	}
-
 	action time {
 		if (Time != null) {
 			Time(new ArraySegment<byte>(data, fpc - 6, 2),
