@@ -47,6 +47,7 @@ class Benchmark
 	public Parser Parser { get; protected set; }
 
 	Queue<ArraySegment<byte>> queue = new Queue<ArraySegment<byte>>();
+	Queue<FileInfo> fqueue = new Queue<FileInfo>();
 
 	public int Size { get; protected set; }
 	public int MaxSize { get; protected set; }
@@ -62,21 +63,51 @@ class Benchmark
 		var now = DateTime.Now;
 		var files = Directory.GetFiles(dir, "*.log");
 
+		Console.WriteLine("Inspecting files");
+
 		foreach (var file in files) {
+			var fi = new FileInfo(file);
+			Size += (int)fi.Length;
+			fqueue.Enqueue(fi);
 			if (Done) {
 				break;
 			}
-			Parse(File.OpenRead(file));
 		}
 
+		Console.WriteLine("Fetched {0} in {1} files", Util.Readable(Size), fqueue.Count);
+
+		Console.WriteLine("Allocating memory");
+
+		var data = new byte[Size];
+		var ms = new MemoryStream(data);
+
+		Console.WriteLine("Reading into memory");
+
+		while (fqueue.Count > 0) {
+			var fi = fqueue.Dequeue();
+			var f = File.OpenRead(fi.FullName);
+			f.CopyTo(ms);
+			f.Close();
+		}
+
+		int last = 0;
+		for (int i = 0; i < Size; i++) {
+			if (data[i] == '\n') {
+				queue.Enqueue(new ArraySegment<byte>(data, last, i - last));
+				i++;
+				last = i;
+			}
+		}
 
 		Console.WriteLine("Fetched {0} messages with the total size of {1} in {2}",
 			queue.Count, Util.Readable(Size), DateTime.Now - now);
 
+		Console.WriteLine("Benchmarking parser");
+
 		now = DateTime.Now;
 		while (queue.Count > 0) {
-			var data = queue.Dequeue();
-			Parser.Execute(data);
+			var d = queue.Dequeue();
+			Parser.Execute(d);
 		}
 		Console.WriteLine("Messages parsed in {0}", DateTime.Now - now);
 	}
