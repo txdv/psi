@@ -30,22 +30,24 @@ namespace Psi
 		private static bool CheckPrefixNumbers()
 		{
 			// year
-			return str[8]  >= '0' && str[8] <= '9'
-			    && str[9]  >= '0' && str[9] <= '9'
-			    && str[10] >= '0' && str[10] <= '9'
-			    && str[11] >= '0' && str[11] <= '9';
+			return str[8]  >= '0' && str[8]  <= '9'
+			     && str[9]  >= '0' && str[9]  <= '9'
+			     && str[10] >= '0' && str[10] <= '9'
+			     && str[11] >= '0' && str[11] <= '9';
 			// TODO: month and day
 		}
 
 		private static void GetDate()
 		{
 			dateTime =
-			new DateTime(int.Parse(str.Substring(8, 4)),
+			new DateTime(
+			      int.Parse(str.Substring(8, 4)),
 			      int.Parse(str.Substring(2, 2)),
 			      int.Parse(str.Substring(5, 2)),
 			      int.Parse(str.Substring(15, 2)),
 			      int.Parse(str.Substring(18, 2)),
-			      int.Parse(str.Substring(21, 2)));
+			      int.Parse(str.Substring(21, 2))
+			);
 		}
 
 		private static string nick;
