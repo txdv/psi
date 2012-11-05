@@ -42,8 +42,8 @@ namespace Psi
 			dateTime =
 			new DateTime(
 			      int.Parse(str.Substring(8, 4)),
-			      int.Parse(str.Substring(2, 2)),
-			      int.Parse(str.Substring(5, 2)),
+			      int.Parse(str.Substring(2,  2)),
+			      int.Parse(str.Substring(5,  2)),
 			      int.Parse(str.Substring(15, 2)),
 			      int.Parse(str.Substring(18, 2)),
 			      int.Parse(str.Substring(21, 2))
@@ -185,7 +185,6 @@ namespace Psi
 				}
 
 				endpos--;
-
 
 				string val = null;
 				if (str[endpos] == '\"') {
