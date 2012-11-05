@@ -19,15 +19,21 @@ namespace Psi.App
 
 			LogProvider logProvider = null;
 
+			int? n = null;
+			try {
+				n = int.Parse(args[2]);
+			} catch {
+			}
+
 			switch (args[0]) {
 			case "test":
-				logProvider = new Test();
+				logProvider = new Test(n);
 				break;
 			case "bench":
-				logProvider = new Benchmark();
+				logProvider = new Benchmark(n);
 				break;
 			case "count":
-				logProvider = new LogCount();
+				logProvider = new LogCount(n);
 				break;
 			}
 

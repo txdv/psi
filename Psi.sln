@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Psi.App", "Psi.App\Psi.App.csproj", "{585CFEEA-F42D-4FC4-8852-9A56273016CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Psi", "Psi\Psi.csproj", "{51240530-3278-44F8-8B60-98313B58C7A6}"

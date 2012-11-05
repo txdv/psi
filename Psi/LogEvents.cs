@@ -386,7 +386,7 @@ namespace Psi
 		{
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return "Log file started";
 		}

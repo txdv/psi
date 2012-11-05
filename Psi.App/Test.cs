@@ -1,12 +1,20 @@
 using System;
+using System.Collections;
 using System.IO;
+using System.Text;
 
 namespace Psi.App
 {
 	public class Test : LogProvider
 	{
-		public override void ReadLine(string line)
+		public Test(int? n)
+			: base(n)
 		{
+		}
+
+		public override void ReadLine(ArraySegment<byte> seg)
+		{
+			string line = Encoding.ASCII.GetString(seg.Array, seg.Offset, seg.Count);
 			try {
 				LogEvent log = MainClass.Parser.UnsafeParse(line);
 				if (log != null) {
