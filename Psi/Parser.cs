@@ -227,178 +227,6 @@ namespace Psi
 
 		#endregion
 
-		#region Events
-
-		public event Action<LogEvent> LogEvent;
-		protected void OnLogEvent(LogEvent logEvent)
-		{
-			if (LogEvent != null) {
-				LogEvent(logEvent);
-			}
-		}
-
-		public event Action<Attack> Attack;
-		protected void OnAttack(Attack attack)
-		{
-			if (Attack != null) {
-				Attack(attack);
-			}
-		}
-
-		public event Action<Say> Say;
-		protected void OnSay(Say say)
-		{
-			if (Say != null) {
-				Say(say);
-			}
-		}
-
-		public event Action<SayTeam> SayTeam;
-		protected void OnSayTeam(SayTeam sayTeam)
-		{
-			if (SayTeam != null) {
-				SayTeam(sayTeam);
-			}
-		}
-
-		public event Action<UserValidated> UserValidated;
-		protected void OnUserValidated(UserValidated userValidated)
-		{
-			if (UserValidated != null) {
-				UserValidated(userValidated);
-			}
-		}
-
-		public event Action<PlayerTrigger> PlayerTrigger;
-		protected void OnPlayerTrigger(PlayerTrigger playerTrigger)
-		{
-			if (PlayerTrigger != null) {
-				PlayerTrigger(playerTrigger);
-			}
-		}
-
-		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
-		protected void OnPlayerTriggerAgainst(PlayerTriggerAgainst playerTriggerAgainst)
-		{
-			if (PlayerTriggerAgainst != null) {
-				PlayerTriggerAgainst(playerTriggerAgainst);
-			}
-		}
-
-		public event Action<JoinTeam> JoinTeam;
-		protected void OnJoinTeam(JoinTeam joinTeam)
-		{
-			if (JoinTeam != null) {
-				JoinTeam(joinTeam);
-			}
-		}
-
-		public event Action<PlayerEnteredGame> PlayerEnteredGame;
-		protected void OnPlayerEnteredGame(PlayerEnteredGame playerEnteredGame)
-		{
-			if (PlayerEnteredGame != null) {
-				PlayerEnteredGame(playerEnteredGame);
-			}
-		}
-
-		public event Action<Disconnected> Disconnected;
-		protected void OnDisconnected(Disconnected disconnected)
-		{
-			if (Disconnected != null) {
-				Disconnected(disconnected);
-			}
-		}
-
-		public event Action<NameChanged> NameChanged;
-		protected void OnNameChanged(NameChanged nameChanged)
-		{
-			if (NameChanged  != null) {
-				NameChanged(nameChanged);
-			}
-		}
-
-		public event Action<Connected> Connected;
-		protected void OnConnected(Connected connected)
-		{
-			if (Connected != null) {
-				Connected(connected);
-			}
-		}
-
-		public event Action<Suicide> Suicide;
-		protected void OnSuicide(Suicide suicide)
-		{
-			if (Suicide != null) {
-				Suicide(suicide);
-			}
-		}
-
-		public event Action<ServerCVarsStart> ServerCVarsStart;
-		protected void OnServerCVarsStart(ServerCVarsStart serverCVarsStart)
-		{
-			if (ServerCVarsStart != null) {
-				ServerCVarsStart(serverCVarsStart);
-			}
-		}
-
-		public event Action<ServerCVarsEnd> ServerCVarsEnd;
-		protected void OnServerCVarsEnd(ServerCVarsEnd serverCVarsEnd)
-		{
-			if (ServerCVarsEnd != null) {
-				ServerCVarsEnd(serverCVarsEnd);
-			}
-		}
-
-		public event Action<ServerCVarSet> ServerCVarSet;
-		protected void OnServerCVarSet(ServerCVarSet serverCVarSet)
-		{
-			if (ServerCVarSet != null) {
-				ServerCVarSet(serverCVarSet);
-			}
-		}
-
-		public event Action<StartedMap> StartedMap;
-		protected void OnStartedMap(StartedMap startedMap)
-		{
-			if (StartedMap != null) {
-				StartedMap(startedMap);
-			}
-		}
-
-		public event Action<TeamTrigger> TeamTrigger;
-		protected void OnTeamTrigger(TeamTrigger teamTrigger)
-		{
-			if (TeamTrigger != null) {
-				TeamTrigger(teamTrigger);
-			}
-		}
-
-		public event Action<WorldTrigger> WorldTrigger;
-		protected void OnWorldTrigger(WorldTrigger worldTrigger)
-		{
-			if (WorldTrigger != null) {
-				WorldTrigger(worldTrigger);
-			}
-		}
-
-		public event Action<LogFileStarted> LogFileStarted;
-		protected void OnLogFileStarted(LogFileStarted logFileStarted)
-		{
-			if (LogFileStarted != null) {
-				LogFileStarted(logFileStarted);
-			}
-		}
-
-		public event Action<LogFileClosed> LogFileClosed;
-		protected void OnLogFileClosed(LogFileClosed logFileClosed)
-		{
-			if (LogFileClosed != null) {
-				LogFileClosed(logFileClosed);
-			}
-		}
-
-		#endregion
-
 		public LogEvent UnsafeParse(string s)
 		{
 			str = s;
@@ -576,6 +404,178 @@ namespace Psi
 				return null;
 			}
 		}
+
+		#region Events
+
+		public event Action<LogEvent> LogEvent;
+		protected void OnLogEvent(LogEvent logEvent)
+		{
+			if (LogEvent != null) {
+				LogEvent(logEvent);
+			}
+		}
+
+		public event Action<Attack> Attack;
+		protected void OnAttack(Attack attack)
+		{
+			if (Attack != null) {
+				Attack(attack);
+			}
+		}
+
+		public event Action<Say> Say;
+		protected void OnSay(Say say)
+		{
+			if (Say != null) {
+				Say(say);
+			}
+		}
+
+		public event Action<SayTeam> SayTeam;
+		protected void OnSayTeam(SayTeam sayTeam)
+		{
+			if (SayTeam != null) {
+				SayTeam(sayTeam);
+			}
+		}
+
+		public event Action<UserValidated> UserValidated;
+		protected void OnUserValidated(UserValidated userValidated)
+		{
+			if (UserValidated != null) {
+				UserValidated(userValidated);
+			}
+		}
+
+		public event Action<PlayerTrigger> PlayerTrigger;
+		protected void OnPlayerTrigger(PlayerTrigger playerTrigger)
+		{
+			if (PlayerTrigger != null) {
+				PlayerTrigger(playerTrigger);
+			}
+		}
+
+		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
+		protected void OnPlayerTriggerAgainst(PlayerTriggerAgainst playerTriggerAgainst)
+		{
+			if (PlayerTriggerAgainst != null) {
+				PlayerTriggerAgainst(playerTriggerAgainst);
+			}
+		}
+
+		public event Action<JoinTeam> JoinTeam;
+		protected void OnJoinTeam(JoinTeam joinTeam)
+		{
+			if (JoinTeam != null) {
+				JoinTeam(joinTeam);
+			}
+		}
+
+		public event Action<PlayerEnteredGame> PlayerEnteredGame;
+		protected void OnPlayerEnteredGame(PlayerEnteredGame playerEnteredGame)
+		{
+			if (PlayerEnteredGame != null) {
+				PlayerEnteredGame(playerEnteredGame);
+			}
+		}
+
+		public event Action<Disconnected> Disconnected;
+		protected void OnDisconnected(Disconnected disconnected)
+		{
+			if (Disconnected != null) {
+				Disconnected(disconnected);
+			}
+		}
+
+		public event Action<NameChanged> NameChanged;
+		protected void OnNameChanged(NameChanged nameChanged)
+		{
+			if (NameChanged  != null) {
+				NameChanged(nameChanged);
+			}
+		}
+
+		public event Action<Connected> Connected;
+		protected void OnConnected(Connected connected)
+		{
+			if (Connected != null) {
+				Connected(connected);
+			}
+		}
+
+		public event Action<Suicide> Suicide;
+		protected void OnSuicide(Suicide suicide)
+		{
+			if (Suicide != null) {
+				Suicide(suicide);
+			}
+		}
+
+		public event Action<ServerCVarsStart> ServerCVarsStart;
+		protected void OnServerCVarsStart(ServerCVarsStart serverCVarsStart)
+		{
+			if (ServerCVarsStart != null) {
+				ServerCVarsStart(serverCVarsStart);
+			}
+		}
+
+		public event Action<ServerCVarsEnd> ServerCVarsEnd;
+		protected void OnServerCVarsEnd(ServerCVarsEnd serverCVarsEnd)
+		{
+			if (ServerCVarsEnd != null) {
+				ServerCVarsEnd(serverCVarsEnd);
+			}
+		}
+
+		public event Action<ServerCVarSet> ServerCVarSet;
+		protected void OnServerCVarSet(ServerCVarSet serverCVarSet)
+		{
+			if (ServerCVarSet != null) {
+				ServerCVarSet(serverCVarSet);
+			}
+		}
+
+		public event Action<StartedMap> StartedMap;
+		protected void OnStartedMap(StartedMap startedMap)
+		{
+			if (StartedMap != null) {
+				StartedMap(startedMap);
+			}
+		}
+
+		public event Action<TeamTrigger> TeamTrigger;
+		protected void OnTeamTrigger(TeamTrigger teamTrigger)
+		{
+			if (TeamTrigger != null) {
+				TeamTrigger(teamTrigger);
+			}
+		}
+
+		public event Action<WorldTrigger> WorldTrigger;
+		protected void OnWorldTrigger(WorldTrigger worldTrigger)
+		{
+			if (WorldTrigger != null) {
+				WorldTrigger(worldTrigger);
+			}
+		}
+
+		public event Action<LogFileStarted> LogFileStarted;
+		protected void OnLogFileStarted(LogFileStarted logFileStarted)
+		{
+			if (LogFileStarted != null) {
+				LogFileStarted(logFileStarted);
+			}
+		}
+
+		public event Action<LogFileClosed> LogFileClosed;
+		protected void OnLogFileClosed(LogFileClosed logFileClosed)
+		{
+			if (LogFileClosed != null) {
+				LogFileClosed(logFileClosed);
+			}
+		}
+
+		#endregion
 	}
 }
 
