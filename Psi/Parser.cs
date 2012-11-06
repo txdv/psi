@@ -355,13 +355,13 @@ namespace Psi
 				break;
 			case 'L':
 				if (Require("Log file closed")) {
-					log = new LogFileClosed(dateTime);
+					log = new LogFileClose(dateTime);
 					log.Options = dict;
-					OnLogFileClosed(log as LogFileClosed);
+					OnLogFileClose(log as LogFileClose);
 				} else if (Require("Log file started")) {
-					log = new LogFileStarted(dateTime);
+					log = new LogFileStart(dateTime);
 					log.Options = dict;
-					OnLogFileStarted(log as LogFileStarted);
+					OnLogFileStarted(log as LogFileStart);
 				}
 				break;
 			case '[':
@@ -405,9 +405,6 @@ namespace Psi
 			}
 		}
 
-		#region Events
-
-		public event Action<LogEvent> LogEvent;
 		protected void OnLogEvent(LogEvent logEvent)
 		{
 			if (LogEvent != null) {
@@ -415,7 +412,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<Attack> Attack;
 		protected void OnAttack(Attack attack)
 		{
 			if (Attack != null) {
@@ -423,7 +419,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<Say> Say;
 		protected void OnSay(Say say)
 		{
 			if (Say != null) {
@@ -431,7 +426,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<SayTeam> SayTeam;
 		protected void OnSayTeam(SayTeam sayTeam)
 		{
 			if (SayTeam != null) {
@@ -439,7 +433,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<UserValidated> UserValidated;
 		protected void OnUserValidated(UserValidated userValidated)
 		{
 			if (UserValidated != null) {
@@ -447,7 +440,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<PlayerTrigger> PlayerTrigger;
 		protected void OnPlayerTrigger(PlayerTrigger playerTrigger)
 		{
 			if (PlayerTrigger != null) {
@@ -455,7 +447,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
 		protected void OnPlayerTriggerAgainst(PlayerTriggerAgainst playerTriggerAgainst)
 		{
 			if (PlayerTriggerAgainst != null) {
@@ -463,7 +454,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<JoinTeam> JoinTeam;
 		protected void OnJoinTeam(JoinTeam joinTeam)
 		{
 			if (JoinTeam != null) {
@@ -471,7 +461,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<PlayerEnteredGame> PlayerEnteredGame;
 		protected void OnPlayerEnteredGame(PlayerEnteredGame playerEnteredGame)
 		{
 			if (PlayerEnteredGame != null) {
@@ -479,7 +468,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<Disconnected> Disconnected;
 		protected void OnDisconnected(Disconnected disconnected)
 		{
 			if (Disconnected != null) {
@@ -487,7 +475,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<NameChanged> NameChanged;
 		protected void OnNameChanged(NameChanged nameChanged)
 		{
 			if (NameChanged  != null) {
@@ -495,7 +482,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<Connected> Connected;
 		protected void OnConnected(Connected connected)
 		{
 			if (Connected != null) {
@@ -503,7 +489,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<Suicide> Suicide;
 		protected void OnSuicide(Suicide suicide)
 		{
 			if (Suicide != null) {
@@ -511,7 +496,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<ServerCVarsStart> ServerCVarsStart;
 		protected void OnServerCVarsStart(ServerCVarsStart serverCVarsStart)
 		{
 			if (ServerCVarsStart != null) {
@@ -519,7 +503,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<ServerCVarsEnd> ServerCVarsEnd;
 		protected void OnServerCVarsEnd(ServerCVarsEnd serverCVarsEnd)
 		{
 			if (ServerCVarsEnd != null) {
@@ -527,7 +510,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<ServerCVarSet> ServerCVarSet;
 		protected void OnServerCVarSet(ServerCVarSet serverCVarSet)
 		{
 			if (ServerCVarSet != null) {
@@ -535,7 +517,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<StartedMap> StartedMap;
 		protected void OnStartedMap(StartedMap startedMap)
 		{
 			if (StartedMap != null) {
@@ -543,7 +524,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<TeamTrigger> TeamTrigger;
 		protected void OnTeamTrigger(TeamTrigger teamTrigger)
 		{
 			if (TeamTrigger != null) {
@@ -551,7 +531,6 @@ namespace Psi
 			}
 		}
 
-		public event Action<WorldTrigger> WorldTrigger;
 		protected void OnWorldTrigger(WorldTrigger worldTrigger)
 		{
 			if (WorldTrigger != null) {
@@ -559,21 +538,45 @@ namespace Psi
 			}
 		}
 
-		public event Action<LogFileStarted> LogFileStarted;
-		protected void OnLogFileStarted(LogFileStarted logFileStarted)
+		protected void OnLogFileStarted(LogFileStart logFileStart)
 		{
-			if (LogFileStarted != null) {
-				LogFileStarted(logFileStarted);
+			if (LogFileStart != null) {
+				LogFileStart(logFileStart);
 			}
 		}
 
-		public event Action<LogFileClosed> LogFileClosed;
-		protected void OnLogFileClosed(LogFileClosed logFileClosed)
+		protected void OnLogFileClose(LogFileClose logFileClose)
 		{
-			if (LogFileClosed != null) {
-				LogFileClosed(logFileClosed);
+			if (LogFileClose != null) {
+				LogFileClose(logFileClose);
 			}
 		}
+
+		#region Events
+
+		public event Action<LogEvent> LogEvent;
+
+		public event Action<LogFileStart> LogFileStart;
+		public event Action<LogFileClose> LogFileClose;
+
+		public event Action<Attack> Attack;
+		public event Action<Say> Say;
+		public event Action<SayTeam> SayTeam;
+		public event Action<UserValidated> UserValidated;
+		public event Action<PlayerTrigger> PlayerTrigger;
+		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
+		public event Action<JoinTeam> JoinTeam;
+		public event Action<PlayerEnteredGame> PlayerEnteredGame;
+		public event Action<Disconnected> Disconnected;
+		public event Action<NameChanged> NameChanged;
+		public event Action<Connected> Connected;
+		public event Action<Suicide> Suicide;
+		public event Action<ServerCVarsStart> ServerCVarsStart;
+		public event Action<ServerCVarsEnd> ServerCVarsEnd;
+		public event Action<ServerCVarSet> ServerCVarSet;
+		public event Action<StartedMap> StartedMap;
+		public event Action<TeamTrigger> TeamTrigger;
+		public event Action<WorldTrigger> WorldTrigger;
 
 		#endregion
 	}

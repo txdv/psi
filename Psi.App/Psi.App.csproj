@@ -41,6 +41,7 @@
     <Compile Include="Test.cs" />
     <Compile Include="LogProvider.cs" />
     <Compile Include="LogCount.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

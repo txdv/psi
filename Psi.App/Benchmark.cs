@@ -7,25 +7,23 @@ namespace Psi.App
 {
 	public class Benchmark : LogProvider
 	{
+		NewParser parser = new NewParser();
+
 		public Benchmark(int? n)
 			: base(n)
 		{
+			parser.AddEvent((e) => { });
 		}
 
-		public override void Run (string directory)
+		public override void End ()
 		{
-			DateTime dt = DateTime.Now;
-			base.Run (directory);
-			double duration = (DateTime.Now - dt).TotalSeconds;
-			Console.WriteLine("Total time: {0}s", duration);
+			base.End();
+			Console.WriteLine("Total time: {0}s", TimeSpan);
 		}
 
 		public override void ReadLine(ArraySegment<byte> line)
 		{
-			try {
-				MainClass.Parser.UnsafeParse(Encoding.ASCII.GetString(line.Array, line.Offset, line.Count));
-			} catch {
-			}
+			parser.Execute(line);
 		}
 	}
 }

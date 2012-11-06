@@ -35,6 +35,11 @@
     <Compile Include="Parser.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="LogEvents.cs" />
+    <Compile Include="RawParser.cs" />
+    <Compile Include="NewParser.cs" />
+    <Compile Include="EncodingExtensions.cs" />
+    <Compile Include="IParserEvents.cs" />
+    <Compile Include="IParserEventsExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

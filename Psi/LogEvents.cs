@@ -17,11 +17,13 @@ namespace Psi
 		public static string FormatOptionsString(IDictionary<string, string> dict)
         {
 			StringBuilder sb = new StringBuilder();
-			foreach (KeyValuePair<string, string> kv in dict) {
-				if (kv.Value == null) {
-					sb.Insert(0, string.Format(" ({0})", kv.Key));
-				} else {
-				sb.Insert(0, string.Format(" ({0} \"{1}\")", kv.Key, kv.Value));
+			if (dict != null) {
+				foreach (KeyValuePair<string, string> kv in dict) {
+					if (kv.Value == null) {
+						sb.Insert(0, string.Format(" ({0})", kv.Key));
+					} else {
+					sb.Insert(0, string.Format(" ({0} \"{1}\")", kv.Key, kv.Value));
+					}
 				}
 			}
 			return sb.ToString();
@@ -78,7 +80,7 @@ namespace Psi
 			Team = team;
 		}
 
-		public override string ToString ()
+		public override string ToString()
 		{
 			return string.Format ("{0}<{1}><{2}><{3}>", Name, ConnectionId, AuthId, Team);
 		}
@@ -379,9 +381,9 @@ namespace Psi
 		}
 	}
 
-	public class LogFileStarted : LogFile
+	public class LogFileStart : LogFile
 	{
-		public LogFileStarted(DateTime dt)
+		public LogFileStart(DateTime dt)
 			: base(dt)
 		{
 		}
@@ -392,9 +394,9 @@ namespace Psi
 		}
 	}
 
-	public class LogFileClosed : LogFile
+	public class LogFileClose : LogFile
 	{
-		public LogFileClosed(DateTime dt)
+		public LogFileClose(DateTime dt)
 			: base(dt)
 		{
 		}

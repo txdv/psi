@@ -15,6 +15,8 @@ namespace Psi.App
 
 		public int? Count { get; protected set; }
 
+		public long Size { get; protected set; }
+
 		public LogProvider(int? count)
 		{
 			Count = count;
@@ -36,21 +38,20 @@ namespace Psi.App
 			}
 			TotalFiles = Files.Length;
 
-			long size = 0;
-
 			foreach (FileInfo fi in Files) {
-				size += fi.Length;
+				Size += fi.Length;
 			}
 
-			data = new byte[size];
+			data = new byte[Size];
 
 			var ms = new MemoryStream(data) { Position = 0 };
 
-			Queue<ArraySegment<byte>> file = new Queue<ArraySegment<byte>>();
+			Console.WriteLine(Util.Readable(Size));
 
 			i = 0;
 			Console.WriteLine();
 			foreach (FileInfo fi in Files) {
+				Queue<ArraySegment<byte>> file = new Queue<ArraySegment<byte>>();
 				Console.CursorTop--;
 				Console.WriteLine("Fetching {0}/{1}", i + 1, Files.Length);
 				i++;
@@ -67,16 +68,17 @@ namespace Psi.App
 					}
 				}
 				f.Close();
+				queue.Enqueue(file);
 			}
 
-			queue.Enqueue(file);
 
 			Console.WriteLine("Running benchmark");
 			Begin();
 			while (queue.Count > 0) {
 				var lines = queue.Dequeue();
 				while (lines.Count > 0) {
-					ReadLine(lines.Dequeue());
+					var line = lines.Dequeue();
+					ReadLine(line);
 				}
 			}
 			End();
@@ -104,7 +106,6 @@ namespace Psi.App
 		{
 			EndTime = DateTime.Now;
 			TimeSpan = EndTime - StartTime;
-			Console.WriteLine("Done in: {0}", TimeSpan);
 		}
 	}
 }
