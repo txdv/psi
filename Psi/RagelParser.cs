@@ -221,14 +221,16 @@ namespace Psi
 				if (str[endpos] != ' ') {
 					throw new Exception();
 				}
+				endpos--;
 			}
-			return endpos;
+			return endpos + 1;
 		}
 
 		public void Parse(ArraySegment<byte> buf)
 		{
 			int end = ReadOptionsBackwards(buf, out options);
-			rawParser.Execute(new ArraySegment<byte>(buf.Array, buf.Offset, end - buf.Offset));
+			var prefix = new ArraySegment<byte>(buf.Array, buf.Offset, end - buf.Offset);
+			rawParser.Execute(prefix);
 		}
 
 		public event Action<LogFileStart> LogFileStart;
