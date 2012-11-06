@@ -36,7 +36,7 @@ namespace Psi
 		}
 
 		
-#line 228 "RawParser.rl"
+#line 229 "RawParser.rl"
 
 
 		public event Action<DateTime> DateTime;
@@ -61,8 +61,9 @@ namespace Psi
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Connect;
 		public event Action<ArraySegment<byte>> Disconnect;
 		public event Action<ArraySegment<byte>> EnterGame;
-		public event Action<ArraySegment<byte>> JoinTeam;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> JoinTeam;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTriggerAgainst;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Killed;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Say;
@@ -78,7 +79,7 @@ namespace Psi
 		int cs;
 
 		
-#line 82 "RawParser.cs"
+#line 83 "RawParser.cs"
 static readonly sbyte[] _psi_actions =  new sbyte [] {
 	0, 1, 0, 1, 1, 1, 2, 1, 
 	4, 1, 5, 1, 6, 1, 7, 1, 
@@ -527,23 +528,23 @@ const int psi_error = 0;
 const int psi_en_main = 1;
 
 
-#line 269 "RawParser.rl"
+#line 271 "RawParser.rl"
 
 		public void Execute(ArraySegment<byte> buf)
 		{
 			int start = buf.Offset;
 			
-#line 537 "RawParser.cs"
+#line 538 "RawParser.cs"
 	{
 	cs = psi_start;
 	}
 
-#line 274 "RawParser.rl"
+#line 276 "RawParser.rl"
 			byte[] data = buf.Array;
 			int p = buf.Offset;
 			int pe = buf.Offset + buf.Count;
 			
-#line 547 "RawParser.cs"
+#line 548 "RawParser.cs"
 	{
 	sbyte _klen;
 	short _trans;
@@ -832,12 +833,13 @@ _match:
 #line 156 "RawParser.rl"
 	{
 				if (JoinTeam != null) {
-					JoinTeam(value);
+					JoinTeam(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+					         value);
 				}
 			}
 	break;
 	case 34:
-#line 161 "RawParser.rl"
+#line 162 "RawParser.rl"
 	{
 				if (PlayerTrigger != null) {
 					PlayerTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
@@ -846,23 +848,23 @@ _match:
 			}
 	break;
 	case 35:
-#line 167 "RawParser.rl"
+#line 168 "RawParser.rl"
 	{ tmp3 = p; }
 	break;
 	case 36:
-#line 167 "RawParser.rl"
+#line 168 "RawParser.rl"
 	{ tmp4 = p; }
 	break;
 	case 37:
-#line 167 "RawParser.rl"
+#line 168 "RawParser.rl"
 	{ tmp5 = p; }
 	break;
 	case 38:
-#line 167 "RawParser.rl"
+#line 168 "RawParser.rl"
 	{ tmp6 = p; }
 	break;
 	case 39:
-#line 167 "RawParser.rl"
+#line 168 "RawParser.rl"
 	{
 				if (Attack != null) {
 					Attack(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
@@ -872,7 +874,7 @@ _match:
 			}
 	break;
 	case 40:
-#line 174 "RawParser.rl"
+#line 175 "RawParser.rl"
 	{
 				if (Killed != null) {
 					Killed(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
@@ -882,7 +884,7 @@ _match:
 			}
 	break;
 	case 41:
-#line 181 "RawParser.rl"
+#line 182 "RawParser.rl"
 	{
 				if (Say != null) {
 					Say(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
@@ -891,7 +893,7 @@ _match:
 			}
 	break;
 	case 42:
-#line 187 "RawParser.rl"
+#line 188 "RawParser.rl"
 	{
 				if (TeamSay != null) {
 					TeamSay(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
@@ -900,7 +902,7 @@ _match:
 			}
 	break;
 	case 43:
-#line 193 "RawParser.rl"
+#line 194 "RawParser.rl"
 	{
 				if (Validate != null) {
 					Validate(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
@@ -908,7 +910,7 @@ _match:
 			}
 	break;
 	case 44:
-#line 198 "RawParser.rl"
+#line 199 "RawParser.rl"
 	{
 				if (NameChange != null) {
 					NameChange(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
@@ -917,7 +919,7 @@ _match:
 			}
 	break;
 	case 45:
-#line 204 "RawParser.rl"
+#line 205 "RawParser.rl"
 	{
 				if (Suicide != null) {
 					Suicide(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
@@ -926,14 +928,14 @@ _match:
 			}
 	break;
 	case 46:
-#line 223 "RawParser.rl"
+#line 224 "RawParser.rl"
 	{
 				if (End != null) {
 					End();
 				}
 			}
 	break;
-#line 937 "RawParser.cs"
+#line 939 "RawParser.cs"
 		default: break;
 		}
 	}
@@ -947,7 +949,7 @@ _again:
 	_out: {}
 	}
 
-#line 278 "RawParser.rl"
+#line 280 "RawParser.rl"
 		}
 	}
 }

@@ -112,9 +112,10 @@ namespace Psi
 
 			// TODO: playertriggeragainst
 
-			rawParser.JoinTeam += (team) => {
-				//JoinTeam(new JoinTeam(dateTime, ReadPlayer(player), GetString(team)));
-				Console.WriteLine(GetString(team));
+			rawParser.JoinTeam += (player, team) => {
+				if (JoinTeam != null) {
+					JoinTeam(new JoinTeam(dateTime, ReadPlayer(player), GetString(team)));
+				}
 			};
 		}
 

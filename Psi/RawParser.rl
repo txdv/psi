@@ -155,7 +155,8 @@ namespace Psi
 			} |
 			'joined team ' value @ {
 				if (JoinTeam != null) {
-					JoinTeam(value);
+					JoinTeam(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+					         value);
 				}
 			} |
 			'triggered ' value @ {
@@ -249,8 +250,9 @@ namespace Psi
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Connect;
 		public event Action<ArraySegment<byte>> Disconnect;
 		public event Action<ArraySegment<byte>> EnterGame;
-		public event Action<ArraySegment<byte>> JoinTeam;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> JoinTeam;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTriggerAgainst;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Killed;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Say;
