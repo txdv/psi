@@ -13,7 +13,6 @@ namespace Psi.App
 		Dictionary<string, int> count = new Dictionary<string, int>();
 
 		NewParser parser = new NewParser();
-		Parser oldParser = new Parser();
 
 		public LogCount(int? n)
 			: base(n)

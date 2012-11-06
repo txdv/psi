@@ -15,7 +15,7 @@ namespace Psi.App
 			parser.AddEvent((e) => { });
 		}
 
-		public override void End ()
+		public override void End()
 		{
 			base.End();
 			Console.WriteLine("Total time: {0}s", TimeSpan);
