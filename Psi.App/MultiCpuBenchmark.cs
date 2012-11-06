@@ -72,7 +72,7 @@ namespace Psi.App
 			int count = 0;
 			int m = (Count.HasValue ? Count.Value : Files.Length);
 			ThreadStart work = () => {
-				NewParser p = new NewParser();
+				var p = new RagelParser();
 				p.AddEvent((_) => { count++; }); 
 				ArraySegment<byte> file;
 				while (i < m) {

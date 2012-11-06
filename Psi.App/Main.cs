@@ -7,7 +7,7 @@ namespace Psi.App
 {
 	public class MainClass
 	{
-		public static Parser Parser { get; private set; }
+		public static StringParser Parser { get; private set; }
 
 		public static void Main(string[] args)
 		{
@@ -15,7 +15,7 @@ namespace Psi.App
 				return;
 			}
 
-			Parser = new Parser();
+			Parser = new StringParser();
 
 			LogProvider logProvider = null;
 

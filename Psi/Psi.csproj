@@ -32,14 +32,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parser.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="LogEvents.cs" />
     <Compile Include="RawParser.cs" />
-    <Compile Include="NewParser.cs" />
     <Compile Include="EncodingExtensions.cs" />
     <Compile Include="IParserEvents.cs" />
     <Compile Include="IParserEventsExtensions.cs" />
+    <Compile Include="StringParser.cs" />
+    <Compile Include="RagelParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

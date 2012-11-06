@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Psi
 {
-	public class NewParser : IParserEvents
+	public class RagelParser : IParserEvents
 	{
 		string GetString(ArraySegment<byte> seg)
 		{
@@ -20,7 +20,7 @@ namespace Psi
 		DateTime dateTime;
 		Dictionary<string, string> options;
 
-		public NewParser()
+		public RagelParser()
 		{
 			rawParser.DateTime += (date) => {
 				dateTime = date;

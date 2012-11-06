@@ -7,7 +7,7 @@ namespace Psi.App
 {
 	public class Benchmark : LogProvider
 	{
-		NewParser parser = new NewParser();
+		RagelParser parser = new RagelParser();
 
 		public Benchmark(int? n)
 			: base(n)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Psi
 {
-	public class Parser : IParserEvents
+	public class StringParser : IParserEvents
 	{
 		#region parsing
 
