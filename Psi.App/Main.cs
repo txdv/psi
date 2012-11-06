@@ -35,6 +35,10 @@ namespace Psi.App
 			case "count":
 				logProvider = new LogCount(n);
 				break;
+			case "mbench":
+				var m = new MultiCpuBenchmark(n);
+				m.Run(args[1]);
+				return;
 			}
 
 			if (logProvider != null) {
