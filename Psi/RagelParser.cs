@@ -32,6 +32,12 @@ namespace Psi
 				}
 			};
 
+			rawParser.Kick += (player, kicker) => {
+				if (Kick != null) {
+					Kick(new Kick(dateTime, ReadPlayer(player), GetString(kicker)) { Options = options });
+				}
+			};
+
 			rawParser.LogFileStart += () => {
 				if (LogFileStart != null) {
 					LogFileStart(new LogFileStart(dateTime) { Options = options });
@@ -246,6 +252,7 @@ namespace Psi
 		}
 
 		public event Action<Meta> Meta;
+		public event Action<Kick> Kick;
 
 		public event Action<LogFileStart> LogFileStart;
 		public event Action<LogFileClose> LogFileClose;

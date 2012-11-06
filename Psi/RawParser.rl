@@ -141,6 +141,13 @@ namespace Psi
 			}
 		} (char *);
 
+		kick = 'Kick: "' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" was kicked by "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
+			if (Kick != null) {
+				Kick(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				     new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
+			}
+		};
+
 		value = '"' % { value_start = fpc; } (char *) '"' @ {
 			value = new ArraySegment<byte>(data, value_start, fpc - value_start);
 			value_start = 0;
@@ -246,6 +253,7 @@ namespace Psi
 				| team
 				| started_map
 				| meta
+				| kick
 				| player_events
 			) (option*)) > {
 				if (End != null) {
@@ -261,6 +269,7 @@ namespace Psi
 		#region Log Message Types
 
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Meta;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> Kick;
 
 		public event Action LogFileStart;
 		public event Action LogFileEnd;
