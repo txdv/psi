@@ -148,6 +148,13 @@ namespace Psi
 			}
 		};
 
+		rcon = 'Rcon: "' % { tmp1 = fpc; } (any *) '" from "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
+			if (Rcon != null) {
+				Rcon(new ArraySegment<byte>(data, tmp1, tmp3 - tmp1 - 8),
+				     new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
+			}
+		};
+
 		value = '"' % { value_start = fpc; } (char *) '"' @ {
 			value = new ArraySegment<byte>(data, value_start, fpc - value_start);
 			value_start = 0;
@@ -211,10 +218,10 @@ namespace Psi
 					           value);
 				}
 			} |
-			'say ' value @ {
+			'say "' % { tmp3 = fpc; } (any *) '"' @ {
 				if (PlayerSay != null) {
 					PlayerSay(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-						value);
+					          new ArraySegment<byte>(data, tmp2, fpc - tmp2 - 1));
 				}
 			} |
 			'say_team ' value @ {
@@ -254,6 +261,7 @@ namespace Psi
 				| started_map
 				| meta
 				| kick
+				| rcon
 				| player_events
 			) (option*)) > {
 				if (End != null) {
@@ -270,6 +278,7 @@ namespace Psi
 
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Meta;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Kick;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> Rcon;
 
 		public event Action LogFileStart;
 		public event Action LogFileEnd;

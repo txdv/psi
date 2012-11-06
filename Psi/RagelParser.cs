@@ -38,6 +38,12 @@ namespace Psi
 				}
 			};
 
+			rawParser.Rcon += (command, ip) => {
+				if (Rcon != null) {
+					Rcon(new Rcon(dateTime, GetString(command), GetString(ip)));
+				}
+			};
+
 			rawParser.LogFileStart += () => {
 				if (LogFileStart != null) {
 					LogFileStart(new LogFileStart(dateTime) { Options = options });
@@ -253,6 +259,7 @@ namespace Psi
 
 		public event Action<Meta> Meta;
 		public event Action<Kick> Kick;
+		public event Action<Rcon> Rcon;
 
 		public event Action<LogFileStart> LogFileStart;
 		public event Action<LogFileClose> LogFileClose;
