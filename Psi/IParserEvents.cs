@@ -30,6 +30,7 @@ namespace Psi
 		event Action<PlayerEnterGame> PlayerEnterGame;
 		event Action<PlayerNameChange> PlayerNameChange;
 		event Action<PlayerSuicide> PlayerSuicide;
+		event Action<PlayerKill> PlayerKill;
 	}
 }
 

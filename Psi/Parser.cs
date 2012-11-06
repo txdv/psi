@@ -286,8 +286,15 @@ namespace Psi
 						log.Options = dict;
 						OnPlayerTrigger(log as PlayerTrigger);
 					}
-
 				} else if (Require("killed ")) {
+					Player player = GetPlayer();
+					ReadPlayer();
+					if (Require(" with ")) {
+						log = new PlayerAttack(dateTime, player, GetPlayer(), ReadValue());
+						log.Options = dict;
+						OnPlayerKill(log as PlayerKill);
+					}
+
 				} else if (Require("joined team ")) {
 					log = new PlayerJoinTeam(dateTime, GetPlayer(), ReadValue());
 					log.Options = dict;
@@ -496,6 +503,12 @@ namespace Psi
 			}
 		}
 
+		protected void OnPlayerKill(PlayerKill playerKill) {
+			if (PlayerKill != null) {
+				PlayerKill(playerKill);
+			}
+		}
+
 		protected void OnServerCVarsStart(ServerCVarsStart serverCVarsStart)
 		{
 			if (ServerCVarsStart != null) {
@@ -582,6 +595,7 @@ namespace Psi
 		public event Action<PlayerEnterGame> PlayerEnterGame;
 		public event Action<PlayerNameChange> PlayerNameChange;
 		public event Action<PlayerSuicide> PlayerSuicide;
+		public event Action<PlayerKill> PlayerKill;
 
 		#endregion
 	}

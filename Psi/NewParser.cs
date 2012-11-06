@@ -139,6 +139,12 @@ namespace Psi
 					PlayerSuicide(new PlayerSuicide(dateTime, ReadPlayer(player), GetString(obj)));
 				}
 			};
+
+			rawParser.PlayerKill += (player, victim, weapon) => {
+				if (PlayerKill != null) {
+					PlayerKill(new PlayerKill(dateTime, ReadPlayer(player), ReadPlayer(victim), GetString(weapon)));
+				}
+			};
 		}
 
 		Player ReadPlayer(ArraySegment<byte> data)
@@ -200,6 +206,7 @@ namespace Psi
 		public event Action<PlayerEnterGame> PlayerEnterGame;
 		public event Action<PlayerNameChange> PlayerNameChange;
 		public event Action<PlayerSuicide> PlayerSuicide;
+		public event Action<PlayerKill> PlayerKill;
 	}
 }
 
