@@ -26,9 +26,9 @@ namespace Psi
 				dateTime = date;
 			};
 
-			rawParser.Meta += (type, message) => {
+			rawParser.Meta += (message) => {
 				if (Meta != null) {
-					Meta(new Meta(dateTime, GetString(type), GetString(message)));
+					Meta(new Meta(dateTime, GetString(message)));
 				}
 			};
 

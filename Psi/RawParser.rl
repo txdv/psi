@@ -140,10 +140,9 @@ namespace Psi
 			}
 		};
 
-		meta = '[META] ' % { tmp1 = fpc; } (charnos *) % { tmp2 = fpc; } ': ' @ {
+		meta = '[META] ' @ {
 			if (Meta != null) {
-				Meta(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-					 new ArraySegment<byte>(data, fpc + 1, pe - fpc - 1));
+				Meta(new ArraySegment<byte>(data, fpc + 1, pe - fpc - 1));
 			}
 		} (char *);
 
@@ -285,7 +284,7 @@ namespace Psi
 
 		#region Log Message Types
 
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> Meta;
+		public event Action<ArraySegment<byte>> Meta;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Kick;
 		public event Action<bool, ArraySegment<byte>, ArraySegment<byte>> Rcon;
 
