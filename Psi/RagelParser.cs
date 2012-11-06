@@ -98,6 +98,12 @@ namespace Psi
 				}
 			};
 
+			rawParser.ServerShutdown += () => {
+				if (ServerShutdown != null) {
+					ServerShutdown(new ServerShutdown(dateTime));
+				}
+			};
+
 			rawParser.WorldTrigger += (trigger) => {
 				if (WorldTrigger != null) {
 					WorldTrigger(new WorldTrigger(dateTime, GetString(trigger)) { Options = options });
@@ -276,6 +282,7 @@ namespace Psi
 
 		public event Action<ServerStartMap> ServerStartMap;
 		public event Action<ServerSay> ServerSay;
+		public event Action<ServerShutdown> ServerShutdown;
 
 		public event Action<WorldTrigger> WorldTrigger;
 

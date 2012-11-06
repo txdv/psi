@@ -47,6 +47,7 @@
     <Compile Include="LogEvents\Kick.cs" />
     <Compile Include="LogEvents\Rcon.cs" />
     <Compile Include="LogEvents\ServerSay.cs" />
+    <Compile Include="LogEvents\ServerShutdown.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

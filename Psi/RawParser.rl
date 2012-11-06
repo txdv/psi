@@ -113,6 +113,12 @@ namespace Psi
 			}
 		};
 
+		server_shutdown = 'Server shutdown' @ {
+			if (ServerShutdown != null) {
+				ServerShutdown();
+			}
+		};
+
 		world_trigger = 'World triggered "' % { tmp1 = fpc; } (char *) '"' @ {
 			if (WorldTrigger != null) {
 				WorldTrigger(new ArraySegment<byte>(data, tmp1, fpc - tmp1));
@@ -264,6 +270,7 @@ namespace Psi
 				| server_cvar
 				| server_cvar_end
 				| server_say
+				| server_shutdown
 				| world_trigger
 				| team
 				| started_map
@@ -296,6 +303,7 @@ namespace Psi
 		public event Action ServerCVarsEnd;
 
 		public event Action<ArraySegment<byte>> ServerSay;
+		public event Action ServerShutdown;
 
 		public event Action<ArraySegment<byte>> LoadingMap;
 		public event Action<ArraySegment<byte>> StartedMap;
