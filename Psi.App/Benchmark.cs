@@ -23,7 +23,7 @@ namespace Psi.App
 
 		public override void ReadLine(ArraySegment<byte> line)
 		{
-			parser.Execute(line);
+			parser.Parse(line);
 		}
 	}
 }

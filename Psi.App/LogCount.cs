@@ -30,7 +30,7 @@ namespace Psi.App
 
 		public override void ReadLine(ArraySegment<byte> seg)
 		{
-			parser.Execute(seg);
+			parser.Parse(seg);
 		}
 
 		string Space(string val, char ch, int count)

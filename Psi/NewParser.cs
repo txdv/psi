@@ -175,7 +175,7 @@ namespace Psi
 			return new Player(nick, connid.ToString(), steamid, team);
 		}
 
-		public void Execute(ArraySegment<byte> buf)
+		public void Parse(ArraySegment<byte> buf)
 		{
 			rawParser.Execute(buf);
 		}
