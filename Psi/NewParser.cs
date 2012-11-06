@@ -11,8 +11,14 @@ namespace Psi
 			return Encoding.ASCII.GetString(seg);
 		}
 
+		string GetString(byte[] data, int offset, int count)
+		{
+			return Encoding.ASCII.GetString(data, offset, count);
+		}
+
 		RawParser rawParser = new RawParser();
 		DateTime dateTime;
+		Dictionary<string, string> options;
 
 		public NewParser()
 		{
@@ -22,127 +28,127 @@ namespace Psi
 
 			rawParser.LogFileStart += () => {
 				if (LogFileStart != null) {
-					LogFileStart(new LogFileStart(dateTime));
+					LogFileStart(new LogFileStart(dateTime) { Options = options });
 				}
 			};
 
 			rawParser.LogFileEnd += () => {;
 				if (LogFileClose != null) {
-					LogFileClose(new LogFileClose(dateTime));
+					LogFileClose(new LogFileClose(dateTime) { Options = options });
 				}
 			};
 
 			rawParser.PlayerConnect += (player, ip) => {
 				if (PlayerConnect != null) {
-					PlayerConnect(new PlayerConnect(dateTime, ReadPlayer(player), GetString(ip)));
+					PlayerConnect(new PlayerConnect(dateTime, ReadPlayer(player), GetString(ip)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerDisconnect += (player) => {
 				if (PlayerDisconnect != null) {
-					PlayerDisconnect(new PlayerDisconnect(dateTime, ReadPlayer(player)));
+					PlayerDisconnect(new PlayerDisconnect(dateTime, ReadPlayer(player)) { Options = options });
 				}
 			};
 
 			rawParser.ServerCVarsStart += () => {
 				if (ServerCVarsStart != null) {
-					ServerCVarsStart(new ServerCVarsStart(dateTime));
+					ServerCVarsStart(new ServerCVarsStart(dateTime) { Options = options });
 				}
 			};
 
 			rawParser.ServerCVarSet += (k, v) => {
 				if (ServerCVarSet != null) {
-					ServerCVarSet(new ServerCVarSet(dateTime, GetString(k), GetString(v)));
+					ServerCVarSet(new ServerCVarSet(dateTime, GetString(k), GetString(v)) { Options = options });
 				}
 			};
 
 			rawParser.ServerCVarsEnd += () => {
 				if (ServerCVarsEnd != null) {
-					ServerCVarsEnd(new ServerCVarsEnd(dateTime));
+					ServerCVarsEnd(new ServerCVarsEnd(dateTime) { Options = options });
 				}
 			};
 
 			rawParser.StartedMap += (map) => {
 				if (ServerStartMap != null) {
-					ServerStartMap(new ServerStartMap(dateTime, GetString(map)));
+					ServerStartMap(new ServerStartMap(dateTime, GetString(map)) { Options = options });
 				}
 			};
 
 			rawParser.TeamTrigger += (team, trigger) => {
 				if (TeamTrigger != null) {
-					TeamTrigger(new TeamTrigger(dateTime, GetString(team), GetString(trigger)));
+					TeamTrigger(new TeamTrigger(dateTime, GetString(team), GetString(trigger)) { Options = options });
 				}
 			};
 
 			rawParser.WorldTrigger += (trigger) => {
 				if (WorldTrigger != null) {
-					WorldTrigger(new WorldTrigger(dateTime, GetString(trigger)));
+					WorldTrigger(new WorldTrigger(dateTime, GetString(trigger)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerSay += (player, text) => {
 				if (PlayerSay != null) {
-					PlayerSay(new PlayerSay(dateTime, ReadPlayer(player), GetString(text)));
+					PlayerSay(new PlayerSay(dateTime, ReadPlayer(player), GetString(text)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerSayTeam += (player, text) => {
 				if (PlayerSayTeam != null) {
-					PlayerSayTeam(new PlayerSayTeam(dateTime, ReadPlayer(player), GetString(text)));
+					PlayerSayTeam(new PlayerSayTeam(dateTime, ReadPlayer(player), GetString(text)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerAttack += (player, victim, weapon) => {
 				if (PlayerAttack != null) {
-					PlayerAttack(new PlayerAttack(dateTime, ReadPlayer(player), ReadPlayer(victim), Encoding.ASCII.GetString(weapon)));
+					PlayerAttack(new PlayerAttack(dateTime, ReadPlayer(player), ReadPlayer(victim), Encoding.ASCII.GetString(weapon)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerValidate += (player) => {
 				if (PlayerValidate != null) {
-					PlayerValidate(new PlayerValidate(dateTime, ReadPlayer(player)));
+					PlayerValidate(new PlayerValidate(dateTime, ReadPlayer(player)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerTrigger += (player, trigger) => {
 				if (PlayerTrigger != null) {
-					PlayerTrigger(new PlayerTrigger(dateTime, ReadPlayer(player), GetString(trigger)));
+					PlayerTrigger(new PlayerTrigger(dateTime, ReadPlayer(player), GetString(trigger)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerTriggerAgainst += (player, trigger, against) => {
 				if (PlayerTriggerAgainst != null) {
-					PlayerTriggerAgainst(new PlayerTriggerAgainst(dateTime, ReadPlayer(player), GetString(trigger), ReadPlayer(against)));
+					PlayerTriggerAgainst(new PlayerTriggerAgainst(dateTime, ReadPlayer(player), GetString(trigger), ReadPlayer(against)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerJoinTeam += (player, team) => {
 				if (PlayerJoinTeam != null) {
-					PlayerJoinTeam(new PlayerJoinTeam(dateTime, ReadPlayer(player), GetString(team)));
+					PlayerJoinTeam(new PlayerJoinTeam(dateTime, ReadPlayer(player), GetString(team)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerEnterGame += (player) => {
 				if (PlayerEnterGame != null) {
-					PlayerEnterGame(new PlayerEnterGame(dateTime, ReadPlayer(player)));
+					PlayerEnterGame(new PlayerEnterGame(dateTime, ReadPlayer(player)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerNameChange += (player, name) => {
 				if (PlayerNameChange != null) {
-					PlayerNameChange(new PlayerNameChange(dateTime, ReadPlayer(player), GetString(name)));
+					PlayerNameChange(new PlayerNameChange(dateTime, ReadPlayer(player), GetString(name)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerSuicide += (player, obj) => {
 				if (PlayerSuicide != null) {
-					PlayerSuicide(new PlayerSuicide(dateTime, ReadPlayer(player), GetString(obj)));
+					PlayerSuicide(new PlayerSuicide(dateTime, ReadPlayer(player), GetString(obj)) { Options = options });
 				}
 			};
 
 			rawParser.PlayerKill += (player, victim, weapon) => {
 				if (PlayerKill != null) {
-					PlayerKill(new PlayerKill(dateTime, ReadPlayer(player), ReadPlayer(victim), GetString(weapon)));
+					PlayerKill(new PlayerKill(dateTime, ReadPlayer(player), ReadPlayer(victim), GetString(weapon)) { Options = options });
 				}
 			};
 		}
@@ -155,14 +161,14 @@ namespace Psi
 				start--;
 			}
 			start++;
-			var team = Encoding.ASCII.GetString(data.Array, start , end - start);
+			var team = GetString(data.Array, start , end - start);
 			start -= 2;
 			end = start;
 			while (data.Array[start] != '<') {
 				start--;
 			}
 			start++;
-			var steamid = Encoding.ASCII.GetString(data.Array, start , end - start);
+			var steamid = GetString(data.Array, start , end - start);
 			start -= 2;
 			end = start;
 			while (data.Array[start] != '<') {
@@ -171,13 +177,58 @@ namespace Psi
 			start++;
 			int connid = RawParser.Number(data.Array, start, end - start);
 			start--;
-			var nick = Encoding.ASCII.GetString(data.Array, data.Offset, start - data.Offset);
+			var nick = GetString(data.Array, data.Offset, start - data.Offset);
 			return new Player(nick, connid.ToString(), steamid, team);
+		}
+
+		int ReadOptionsBackwards(ArraySegment<byte> data, out Dictionary<string, string> dict)
+		{
+			dict = new Dictionary<string, string>();
+
+			var str = data.Array;
+			int endpos = data.Offset + data.Count;
+			endpos--;
+
+			while (true) {
+				if (str[endpos] != ')') {
+					break;
+				}
+
+				endpos--;
+
+				string val = null;
+				if (str[endpos] == '\"') {
+					int endValue = endpos;
+					endpos--; // "text ") wont get matched
+					while (!(str[endpos-1] == ' ' && str[endpos] == '\"')) {
+						endpos--;
+					}
+					val = GetString(data.Array, endpos + 1, endValue - endpos - 1);
+					endpos--;
+				} else {
+					endpos++; // we shouldn't point right after the key
+				}
+
+				int endKey = endpos;
+
+				while (str[endpos] != '(') {
+					endpos--;
+				}
+				string key = GetString(data.Array, endpos + 1, endKey - endpos - 1);
+				dict[key] = val;
+				endpos--;
+
+				if (str[endpos] != ' ') {
+					throw new Exception();
+				}
+			}
+			return endpos;
 		}
 
 		public void Parse(ArraySegment<byte> buf)
 		{
-			rawParser.Execute(buf);
+			int end = ReadOptionsBackwards(buf, out options);
+			rawParser.Execute(new ArraySegment<byte>(buf.Array, buf.Offset, end - buf.Offset));
 		}
 
 		public event Action<LogFileStart> LogFileStart;
