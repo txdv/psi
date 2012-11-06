@@ -38,9 +38,9 @@ namespace Psi
 				}
 			};
 
-			rawParser.Rcon += (command, ip) => {
+			rawParser.Rcon += (good, command, ip) => {
 				if (Rcon != null) {
-					Rcon(new Rcon(dateTime, GetString(command), GetString(ip)));
+					Rcon(new Rcon(dateTime, good, GetString(command), GetString(ip)));
 				}
 			};
 

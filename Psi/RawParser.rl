@@ -154,11 +154,13 @@ namespace Psi
 			}
 		};
 
-		rcon = 'Rcon: "' % { tmp1 = fpc; } (any *) '" from "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
+		rcon = ('Bad ' % { tmp5 = -1; } | '') 'Rcon: "' % { tmp1 = fpc; } (any *) '" from "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
 			if (Rcon != null) {
-				Rcon(new ArraySegment<byte>(data, tmp1, tmp3 - tmp1 - 8),
+				Rcon(tmp5 != -1,
+				     new ArraySegment<byte>(data, tmp1, tmp3 - tmp1 - 8),
 				     new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
 			}
+			tmp5 = 0;
 		};
 
 		value = '"' % { value_start = fpc; } (char *) '"' @ {
@@ -285,7 +287,7 @@ namespace Psi
 
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Meta;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Kick;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> Rcon;
+		public event Action<bool, ArraySegment<byte>, ArraySegment<byte>> Rcon;
 
 		public event Action LogFileStart;
 		public event Action LogFileEnd;
