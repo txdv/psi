@@ -22,7 +22,15 @@ namespace Psi.App
 			Count = count;
 		}
 
-		public abstract void Run(string directory);
+		public virtual void Run(string directory)
+		{
+			DirectoryInfo di = new DirectoryInfo(directory);
+
+			Files = di.GetFiles();
+			if (Count.HasValue) {
+				Files = Files.Take(Count.Value).ToArray();
+			}
+		}
 
 		public DateTime StartTime { get; protected set; }
 		public DateTime EndTime { get; protected set; }

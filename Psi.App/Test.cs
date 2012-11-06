@@ -12,7 +12,7 @@ namespace Psi.App
 		{
 		}
 
-		public override void ReadLine (RagelParser parser, ArraySegment<byte> line)
+		public override void ReadLine(RagelParser parser, ArraySegment<byte> line)
 		{
 			if (!parser.Parse(line)) {
 				Console.WriteLine(Encoding.ASCII.GetString(line));
