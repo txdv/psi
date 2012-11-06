@@ -74,15 +74,21 @@ namespace Psi
 				}
 			};
 
+			rawParser.WorldTrigger += (trigger) => {
+				if (WorldTrigger != null) {
+					WorldTrigger(new WorldTrigger(dateTime, GetString(trigger)) { Options = options });
+				}
+			};
+
 			rawParser.TeamTrigger += (team, trigger) => {
 				if (TeamTrigger != null) {
 					TeamTrigger(new TeamTrigger(dateTime, GetString(team), GetString(trigger)) { Options = options });
 				}
 			};
 
-			rawParser.WorldTrigger += (trigger) => {
-				if (WorldTrigger != null) {
-					WorldTrigger(new WorldTrigger(dateTime, GetString(trigger)) { Options = options });
+			rawParser.TeamScore += (team, score, players) => {
+				if (TeamScore != null) {
+					TeamScore(new TeamScore(dateTime, GetString(team), score, players));
 				}
 			};
 
@@ -226,11 +232,11 @@ namespace Psi
 			return endpos + 1;
 		}
 
-		public void Parse(ArraySegment<byte> buf)
+		public bool Parse(ArraySegment<byte> buf)
 		{
 			int end = ReadOptionsBackwards(buf, out options);
 			var prefix = new ArraySegment<byte>(buf.Array, buf.Offset, end - buf.Offset);
-			rawParser.Execute(prefix);
+			return rawParser.Execute(prefix);
 		}
 
 		public event Action<LogFileStart> LogFileStart;
@@ -242,8 +248,10 @@ namespace Psi
 
 		public event Action<ServerStartMap> ServerStartMap;
 
-		public event Action<TeamTrigger> TeamTrigger;
 		public event Action<WorldTrigger> WorldTrigger;
+
+		public event Action<TeamTrigger> TeamTrigger;
+		public event Action<TeamScore> TeamScore;
 
 		public event Action<PlayerConnect> PlayerConnect;
 		public event Action<PlayerDisconnect> PlayerDisconnect;

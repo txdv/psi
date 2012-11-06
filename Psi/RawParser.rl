@@ -113,12 +113,20 @@ namespace Psi
 			}
 		};
 
-		team_trigger = 'Team "' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" triggered "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
+		team = 'Team "' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } (
+		'" triggered "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' @ {
 			if (TeamTrigger != null) {
 				TeamTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 				            new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
 			}
-		};
+		} |
+		'" scored "' % { tmp3 = fpc; } (digit *) % { tmp4 = fpc; } '" with "' % { tmp5 = fpc; } (digit *) % { tmp6 = fpc; } '" players' @ {
+			if (TeamScore != null) {
+				TeamScore(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				          Number(data, tmp3, tmp4 - tmp3),
+				          Number(data, tmp5, tmp6 - tmp5));
+			}
+		});
 
 		started_map = 'Started map "' % { tmp1 = fpc; } (char *) '"' @ {
 			if (StartedMap != null) {
@@ -228,7 +236,7 @@ namespace Psi
 				| server_cvar
 				| server_cvar_end
 				| world_trigger
-				| team_trigger
+				| team
 				| started_map
 				| player_events
 			) (option*)) > {
@@ -255,7 +263,9 @@ namespace Psi
 		public event Action<ArraySegment<byte>> StartedMap;
 
 		public event Action<ArraySegment<byte>> WorldTrigger;
+
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamTrigger;
+		public event Action<ArraySegment<byte>, int, int> TeamScore;
 
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerConnect;
 		public event Action<ArraySegment<byte>> PlayerDisconnect;
@@ -279,7 +289,7 @@ namespace Psi
 
 		%% write data;
 
-		public void Execute(ArraySegment<byte> buf)
+		public bool Execute(ArraySegment<byte> buf)
 		{
 			int start = buf.Offset;
 			%% write init;
@@ -287,6 +297,7 @@ namespace Psi
 			int p = buf.Offset;
 			int pe = buf.Offset + buf.Count;
 			%% write exec;
+			return p == pe;
 		}
 	}
 }

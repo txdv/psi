@@ -40,6 +40,12 @@
     <Compile Include="IParserEventsExtensions.cs" />
     <Compile Include="StringParser.cs" />
     <Compile Include="RagelParser.cs" />
+    <Compile Include="LogEvents\TeamScore.cs" />
+    <Compile Include="LogEvents\TeamTrigger.cs" />
+    <Compile Include="LogEvents\TeamBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="LogEvents\" />
+  </ItemGroup>
 </Project>

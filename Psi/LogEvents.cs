@@ -357,24 +357,6 @@ namespace Psi
 		}
 	}
 
-	public class TeamTrigger : LogEvent
-	{
-		public string Team { get; set; }
-		public string Trigger { get; set; }
-
-		public TeamTrigger(DateTime dt, string team, string trigger)
-		: base(dt)
-		{
-			Team = team;
-			Trigger = trigger;
-		}
-
-		public override string ToString()
-		{
-			return string.Format("Team \"{0}\" triggered \"{1}\"", Team, Trigger);
-		}
-	}
-
 	public class WorldTrigger : LogEvent
 	{
 		public string Trigger { get; set; }
