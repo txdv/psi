@@ -134,6 +134,13 @@ namespace Psi
 			}
 		};
 
+		meta = '[META] ' % { tmp1 = fpc; } (charnos *) % { tmp2 = fpc; } ': ' @ {
+			if (Meta != null) {
+				Meta(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+					 new ArraySegment<byte>(data, fpc + 1, pe - fpc - 1));
+			}
+		} (char *);
+
 		value = '"' % { value_start = fpc; } (char *) '"' @ {
 			value = new ArraySegment<byte>(data, value_start, fpc - value_start);
 			value_start = 0;
@@ -238,6 +245,7 @@ namespace Psi
 				| world_trigger
 				| team
 				| started_map
+				| meta
 				| player_events
 			) (option*)) > {
 				if (End != null) {
@@ -251,6 +259,8 @@ namespace Psi
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Option;
 
 		#region Log Message Types
+
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> Meta;
 
 		public event Action LogFileStart;
 		public event Action LogFileEnd;
@@ -296,6 +306,7 @@ namespace Psi
 			byte[] data = buf.Array;
 			int p = buf.Offset;
 			int pe = buf.Offset + buf.Count;
+			int eof = pe;
 			%% write exec;
 			return p == pe;
 		}

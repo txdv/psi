@@ -26,6 +26,12 @@ namespace Psi
 				dateTime = date;
 			};
 
+			rawParser.Meta += (type, message) => {
+				if (Meta != null) {
+					Meta(new Meta(dateTime, GetString(type), GetString(message)));
+				}
+			};
+
 			rawParser.LogFileStart += () => {
 				if (LogFileStart != null) {
 					LogFileStart(new LogFileStart(dateTime) { Options = options });
@@ -238,6 +244,8 @@ namespace Psi
 			var prefix = new ArraySegment<byte>(buf.Array, buf.Offset, end - buf.Offset);
 			return rawParser.Execute(prefix);
 		}
+
+		public event Action<Meta> Meta;
 
 		public event Action<LogFileStart> LogFileStart;
 		public event Action<LogFileClose> LogFileClose;
