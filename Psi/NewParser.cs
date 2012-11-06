@@ -34,13 +34,13 @@ namespace Psi
 
 			rawParser.Connect += (player, ip) => {
 				if (PlayerConnect != null) {
-					PlayerConnect(new Connected(dateTime, ReadPlayer(player), GetString(ip)));
+					PlayerConnect(new PlayerConnect(dateTime, ReadPlayer(player), GetString(ip)));
 				}
 			};
 
 			rawParser.Disconnect += (player) => {
 				if (PlayerDisconnect != null) {
-					PlayerDisconnect(new Disconnected(dateTime, ReadPlayer(player)));
+					PlayerDisconnect(new PlayerDisconnect(dateTime, ReadPlayer(player)));
 				}
 			};
 
@@ -64,7 +64,7 @@ namespace Psi
 
 			rawParser.StartedMap += (map) => {
 				if (ServerStartMap != null) {
-					ServerStartMap(new StartedMap(dateTime, GetString(map)));
+					ServerStartMap(new ServerStartMap(dateTime, GetString(map)));
 				}
 			};
 
@@ -82,25 +82,25 @@ namespace Psi
 
 			rawParser.Say += (player, text) => {
 				if (PlayerSay != null) {
-					PlayerSay(new Say(dateTime, ReadPlayer(player), GetString(text)));
+					PlayerSay(new PlayerSay(dateTime, ReadPlayer(player), GetString(text)));
 				}
 			};
 
 			rawParser.TeamSay += (player, text) => {
 				if (PlayerSayTeam != null) {
-					PlayerSayTeam(new SayTeam(dateTime, ReadPlayer(player), GetString(text)));
+					PlayerSayTeam(new PlayerSayTeam(dateTime, ReadPlayer(player), GetString(text)));
 				}
 			};
 
 			rawParser.Attack += (player, victim, weapon) => {
 				if (PlayerAttack != null) {
-					PlayerAttack(new Attack(dateTime, ReadPlayer(player), ReadPlayer(victim), Encoding.ASCII.GetString(weapon)));
+					PlayerAttack(new PlayerAttack(dateTime, ReadPlayer(player), ReadPlayer(victim), Encoding.ASCII.GetString(weapon)));
 				}
 			};
 
 			rawParser.Validate += (player) => {
 				if (PlayerValidate != null) {
-					PlayerValidate(new UserValidated(dateTime, ReadPlayer(player)));
+					PlayerValidate(new PlayerValidate(dateTime, ReadPlayer(player)));
 				}
 			};
 
@@ -118,25 +118,25 @@ namespace Psi
 
 			rawParser.JoinTeam += (player, team) => {
 				if (PlayerJoinTeam != null) {
-					PlayerJoinTeam(new JoinTeam(dateTime, ReadPlayer(player), GetString(team)));
+					PlayerJoinTeam(new PlayerJoinTeam(dateTime, ReadPlayer(player), GetString(team)));
 				}
 			};
 
 			rawParser.EnterGame += (player) => {
 				if (PlayerEnterGame != null) {
-					PlayerEnterGame(new PlayerEnteredGame(dateTime, ReadPlayer(player)));
+					PlayerEnterGame(new PlayerEnterGame(dateTime, ReadPlayer(player)));
 				}
 			};
 
 			rawParser.NameChange += (player, name) => {
 				if (PlayerNameChange != null) {
-					PlayerNameChange(new NameChanged(dateTime, ReadPlayer(player), GetString(name)));
+					PlayerNameChange(new PlayerNameChange(dateTime, ReadPlayer(player), GetString(name)));
 				}
 			};
 
 			rawParser.Suicide += (player, obj) => {
 				if (PlayerSuicide != null) {
-					PlayerSuicide(new Suicide(dateTime, ReadPlayer(player), GetString(obj)));
+					PlayerSuicide(new PlayerSuicide(dateTime, ReadPlayer(player), GetString(obj)));
 				}
 			};
 		}
@@ -181,25 +181,25 @@ namespace Psi
 		public event Action<ServerCVarSet> ServerCVarSet;
 		public event Action<ServerCVarsEnd> ServerCVarsEnd;
 
-		public event Action<StartedMap> ServerStartMap;
+		public event Action<ServerStartMap> ServerStartMap;
 
 		public event Action<TeamTrigger> TeamTrigger;
 		public event Action<WorldTrigger> WorldTrigger;
 
-		public event Action<Connected> PlayerConnect;
-		public event Action<Disconnected> PlayerDisconnect;
+		public event Action<PlayerConnect> PlayerConnect;
+		public event Action<PlayerDisconnect> PlayerDisconnect;
 
-		public event Action<Say> PlayerSay;
-		public event Action<SayTeam> PlayerSayTeam;
+		public event Action<PlayerSay> PlayerSay;
+		public event Action<PlayerSayTeam> PlayerSayTeam;
 
-		public event Action<Attack> PlayerAttack;
-		public event Action<UserValidated> PlayerValidate;
+		public event Action<PlayerAttack> PlayerAttack;
+		public event Action<PlayerValidate> PlayerValidate;
 		public event Action<PlayerTrigger> PlayerTrigger;
 		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
-		public event Action<JoinTeam> PlayerJoinTeam;
-		public event Action<PlayerEnteredGame> PlayerEnterGame;
-		public event Action<NameChanged> PlayerNameChange;
-		public event Action<Suicide> PlayerSuicide;
+		public event Action<PlayerJoinTeam> PlayerJoinTeam;
+		public event Action<PlayerEnterGame> PlayerEnterGame;
+		public event Action<PlayerNameChange> PlayerNameChange;
+		public event Action<PlayerSuicide> PlayerSuicide;
 	}
 }
 

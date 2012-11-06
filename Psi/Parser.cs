@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Psi
 {
-	public class Parser
+	public class Parser : IParserEvents
 	{
 		#region parsing
 
@@ -255,22 +255,22 @@ namespace Psi
 					Player player = GetPlayer();
 					ReadPlayer();
 					if (Require(" with ")) {
-						log = new Attack(dateTime, player, GetPlayer(), ReadValue());
+						log = new PlayerAttack(dateTime, player, GetPlayer(), ReadValue());
 						log.Options = dict;
-						OnAttack(log as Attack);
+						OnPlayerAttack(log as PlayerAttack);
 					}
 				} else if (Require("say ")) {
-					log = new Say(dateTime, GetPlayer(), ReadValue());
+					log = new PlayerSay(dateTime, GetPlayer(), ReadValue());
 					log.Options = dict;
-					OnSay(log as Say);
+					OnPlayerSay(log as PlayerSay);
 				} else if (Require("say_team ")) {
-					log = new SayTeam(dateTime, GetPlayer(), ReadValue());
+					log = new PlayerSayTeam(dateTime, GetPlayer(), ReadValue());
 					log.Options = dict;
-					OnSayTeam(log as SayTeam);
+					OnPlayerSayTeam(log as PlayerSayTeam);
 				} else if (Require("STEAM USERID validated")) {
-					log = new UserValidated(dateTime, GetPlayer());
+					log = new PlayerValidate(dateTime, GetPlayer());
 					log.Options = dict;
-					OnUserValidated(log as UserValidated);
+					OnPlayerValidate(log as PlayerValidate);
 				} else if (Require("triggered ")) {
 					Player player = GetPlayer();
 					string trigger = ReadString();
@@ -289,29 +289,29 @@ namespace Psi
 
 				} else if (Require("killed ")) {
 				} else if (Require("joined team ")) {
-					log = new JoinTeam(dateTime, GetPlayer(), ReadValue());
+					log = new PlayerJoinTeam(dateTime, GetPlayer(), ReadValue());
 					log.Options = dict;
-					OnJoinTeam(log as JoinTeam);
+					OnPlayerJoinTeam(log as PlayerJoinTeam);
 				} else if (Require("entered the game")) {
-					log = new PlayerEnteredGame(dateTime, GetPlayer());
+					log = new PlayerEnterGame(dateTime, GetPlayer());
 					log.Options = dict;
-					OnPlayerEnteredGame(log as PlayerEnteredGame);
+					OnPlayerEnterGame(log as PlayerEnterGame);
 				} else if (Require("disconnected")) {
-					log = new Disconnected(dateTime, GetPlayer());
+					log = new PlayerDisconnect(dateTime, GetPlayer());
 					log.Options = dict;
-					OnDisconnected(log as Disconnected);
+					OnPlayerDisconnect(log as PlayerDisconnect);
 				} else if (Require("changed name to ")) {
-					log = new NameChanged(dateTime, GetPlayer(), ReadValue());
+					log = new PlayerNameChange(dateTime, GetPlayer(), ReadValue());
 					log.Options = dict;
-					OnNameChanged(log as NameChanged);
+					OnPlayerNameChange(log as PlayerNameChange);
 				} else if (Require("connected, address ")) {
-					log = new Connected(dateTime, GetPlayer(), ReadValue());
+					log = new PlayerConnect(dateTime, GetPlayer(), ReadValue());
 					log.Options = dict;
-					OnConnected(log as Connected);
+					OnPlayerConnect(log as PlayerConnect);
 				} else if (Require("committed suicide with ")) {
-					log = new Suicide(dateTime, GetPlayer(), ReadValue());
+					log = new PlayerSuicide(dateTime, GetPlayer(), ReadValue());
 					log.Options = dict;
-					OnSuicide(log as Suicide);
+					OnPlayerSuicide(log as PlayerSuicide);
 				}
 				break;
 			case 'S':
@@ -331,9 +331,9 @@ namespace Psi
 						OnServerCVarSet(log as ServerCVarSet);
 					}
 				} else if (Require("Started map ")) {
-					log = new StartedMap(dateTime, ReadValue());
+					log = new ServerStartMap(dateTime, ReadValue());
 					log.Options = dict;
-					OnStartedMap(log as StartedMap);
+					OnServerStartMap(log as ServerStartMap);
 				}
 			break;
 			case 'T':
@@ -412,31 +412,31 @@ namespace Psi
 			}
 		}
 
-		protected void OnAttack(Attack attack)
+		protected void OnPlayerAttack(PlayerAttack playerAttack)
 		{
-			if (Attack != null) {
-				Attack(attack);
+			if (PlayerAttack != null) {
+				PlayerAttack(playerAttack);
 			}
 		}
 
-		protected void OnSay(Say say)
+		protected void OnPlayerSay(PlayerSay playerSay)
 		{
-			if (Say != null) {
-				Say(say);
+			if (PlayerSay != null) {
+				PlayerSay(playerSay);
 			}
 		}
 
-		protected void OnSayTeam(SayTeam sayTeam)
+		protected void OnPlayerSayTeam(PlayerSayTeam playerSayTeam)
 		{
-			if (SayTeam != null) {
-				SayTeam(sayTeam);
+			if (PlayerSayTeam != null) {
+				PlayerSayTeam(playerSayTeam);
 			}
 		}
 
-		protected void OnUserValidated(UserValidated userValidated)
+		protected void OnPlayerValidate(PlayerValidate playerValidate)
 		{
-			if (UserValidated != null) {
-				UserValidated(userValidated);
+			if (PlayerValidate != null) {
+				PlayerValidate(playerValidate);
 			}
 		}
 
@@ -454,45 +454,45 @@ namespace Psi
 			}
 		}
 
-		protected void OnJoinTeam(JoinTeam joinTeam)
+		protected void OnPlayerJoinTeam(PlayerJoinTeam playerJoinTeam)
 		{
-			if (JoinTeam != null) {
-				JoinTeam(joinTeam);
+			if (PlayerJoinTeam != null) {
+				PlayerJoinTeam(playerJoinTeam);
 			}
 		}
 
-		protected void OnPlayerEnteredGame(PlayerEnteredGame playerEnteredGame)
+		protected void OnPlayerEnterGame(PlayerEnterGame playerEnterGame)
 		{
-			if (PlayerEnteredGame != null) {
-				PlayerEnteredGame(playerEnteredGame);
+			if (PlayerEnterGame != null) {
+				PlayerEnterGame(playerEnterGame);
 			}
 		}
 
-		protected void OnDisconnected(Disconnected disconnected)
+		protected void OnPlayerDisconnect(PlayerDisconnect playerDisconnect)
 		{
-			if (Disconnected != null) {
-				Disconnected(disconnected);
+			if (playerDisconnect != null) {
+				PlayerDisconnect(playerDisconnect);
 			}
 		}
 
-		protected void OnNameChanged(NameChanged nameChanged)
+		protected void OnPlayerNameChange(PlayerNameChange playerNameChange)
 		{
-			if (NameChanged  != null) {
-				NameChanged(nameChanged);
+			if (PlayerNameChange != null) {
+				PlayerNameChange(playerNameChange);
 			}
 		}
 
-		protected void OnConnected(Connected connected)
+		protected void OnPlayerConnect(PlayerConnect playerConnected)
 		{
-			if (Connected != null) {
-				Connected(connected);
+			if (PlayerConnect != null) {
+				PlayerConnect(playerConnected);
 			}
 		}
 
-		protected void OnSuicide(Suicide suicide)
+		protected void OnPlayerSuicide(PlayerSuicide playerSuicide)
 		{
-			if (Suicide != null) {
-				Suicide(suicide);
+			if (PlayerSuicide != null) {
+				PlayerSuicide(playerSuicide);
 			}
 		}
 
@@ -517,10 +517,10 @@ namespace Psi
 			}
 		}
 
-		protected void OnStartedMap(StartedMap startedMap)
+		protected void OnServerStartMap(ServerStartMap serverStartMap)
 		{
-			if (StartedMap != null) {
-				StartedMap(startedMap);
+			if (ServerStartMap != null) {
+				ServerStartMap(serverStartMap);
 			}
 		}
 
@@ -563,25 +563,25 @@ namespace Psi
 		public event Action<ServerCVarSet> ServerCVarSet;
 		public event Action<ServerCVarsEnd> ServerCVarsEnd;
 
-		public event Action<StartedMap> StartedMap;
+		public event Action<ServerStartMap> ServerStartMap;
 
 		public event Action<TeamTrigger> TeamTrigger;
 		public event Action<WorldTrigger> WorldTrigger;
 
-		public event Action<Connected> Connected;
-		public event Action<Disconnected> Disconnected;
+		public event Action<PlayerConnect> PlayerConnect;
+		public event Action<PlayerDisconnect> PlayerDisconnect;
 
-		public event Action<Say> Say;
-		public event Action<SayTeam> SayTeam;
+		public event Action<PlayerSay> PlayerSay;
+		public event Action<PlayerSayTeam> PlayerSayTeam;
 
-		public event Action<Attack> Attack;
-		public event Action<UserValidated> UserValidated;
+		public event Action<PlayerAttack> PlayerAttack;
+		public event Action<PlayerValidate> PlayerValidate;
 		public event Action<PlayerTrigger> PlayerTrigger;
 		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
-		public event Action<JoinTeam> JoinTeam;
-		public event Action<PlayerEnteredGame> PlayerEnteredGame;
-		public event Action<NameChanged> NameChanged;
-		public event Action<Suicide> Suicide;
+		public event Action<PlayerJoinTeam> PlayerJoinTeam;
+		public event Action<PlayerEnterGame> PlayerEnterGame;
+		public event Action<PlayerNameChange> PlayerNameChange;
+		public event Action<PlayerSuicide> PlayerSuicide;
 
 		#endregion
 	}

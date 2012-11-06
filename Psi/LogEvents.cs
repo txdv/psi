@@ -86,9 +86,9 @@ namespace Psi
 		}
 	}
 
-	public class PlayerEnteredGame : PlayerBase
+	public class PlayerEnterGame : PlayerBase
 	{
-		public PlayerEnteredGame(DateTime dt, Player player)
+		public PlayerEnterGame(DateTime dt, Player player)
 			: base(dt, player)
 		{
 		}
@@ -99,12 +99,12 @@ namespace Psi
 		}
 	}
 
-	public class Attack : PlayerBase
+	public class PlayerAttack : PlayerBase
 	{
 		public Player Victim { get; set; }
 		public string Weapon { get; set; }
 
-		public Attack(DateTime dt, Player attacker, Player victim, string weapon)
+		public PlayerAttack(DateTime dt, Player attacker, Player victim, string weapon)
 			: base(dt, attacker)
 		{
 			Victim = victim;
@@ -117,20 +117,20 @@ namespace Psi
 		}
 	}
 
-	public abstract class Talk : PlayerBase
+	public abstract class PlayerMessage : PlayerBase
 	{
 		public string Message { get; set; }
 
-		public Talk(DateTime dt, Player player, string message)
+		public PlayerMessage(DateTime dt, Player player, string message)
 			: base(dt, player)
 		{
 			Message = message;
 		}
 	}
 
-	public class Say : Talk
+	public class PlayerSay : PlayerMessage
 	{
-		public Say(DateTime dt, Player player, string message)
+		public PlayerSay(DateTime dt, Player player, string message)
 			: base(dt, player, message)
 		{
 		}
@@ -141,9 +141,9 @@ namespace Psi
 		}
 	}
 
-	public class SayTeam : Talk
+	public class PlayerSayTeam : PlayerMessage
 	{
-		public SayTeam(DateTime dt, Player player, string message)
+		public PlayerSayTeam(DateTime dt, Player player, string message)
 			: base(dt, player, message)
 		{
 		}
@@ -154,9 +154,9 @@ namespace Psi
 		}
 	}
 
-	public class UserValidated : PlayerBase
+	public class PlayerValidate : PlayerBase
 	{
-		public UserValidated(DateTime dt, Player player)
+		public PlayerValidate(DateTime dt, Player player)
 			: base(dt, player)
 		{
 		}
@@ -202,11 +202,11 @@ namespace Psi
 		}
 	}
 
-	public class JoinTeam : PlayerBase
+	public class PlayerJoinTeam : PlayerBase
 	{
 		public string Team { get; set; }
 
-		public JoinTeam(DateTime dt, Player player, string team)
+		public PlayerJoinTeam(DateTime dt, Player player, string team)
 			: base(dt, player)
 		{
 			Team = team;
@@ -218,9 +218,9 @@ namespace Psi
 		}
 	}
 
-	public class Disconnected : PlayerBase
+	public class PlayerDisconnect : PlayerBase
 	{
-		public Disconnected(DateTime dt, Player player)
+		public PlayerDisconnect(DateTime dt, Player player)
 			: base(dt, player)
 		{
 		}
@@ -231,11 +231,11 @@ namespace Psi
 		}
 	}
 
-	public class NameChanged : PlayerBase
+	public class PlayerNameChange : PlayerBase
 	{
 		public string Name { get; set; }
 
-		public NameChanged(DateTime dt, Player player, string name)
+		public PlayerNameChange(DateTime dt, Player player, string name)
 			: base(dt, player)
 		{
 			Name = name;
@@ -247,11 +247,11 @@ namespace Psi
 		}
 	}
 
-	public class Connected : PlayerBase
+	public class PlayerConnect : PlayerBase
 	{
 		public string IPString { get; set; }
 
-		public Connected(DateTime dt, Player player, string ipstring)
+		public PlayerConnect(DateTime dt, Player player, string ipstring)
 			: base(dt, player)
 		{
 			IPString = ipstring;
@@ -263,11 +263,11 @@ namespace Psi
 		}
 	}
 
-	public class Suicide : PlayerBase
+	public class PlayerSuicide : PlayerBase
 	{
 		public string Trigger { get; set; }
 
-		public Suicide(DateTime dt, Player player, string trigger)
+		public PlayerSuicide(DateTime dt, Player player, string trigger)
 			: base(dt, player)
 		{
 			Trigger = trigger;
@@ -279,11 +279,11 @@ namespace Psi
 		}
 	}
 
-	public class StartedMap : LogEvent
+	public class ServerStartMap : LogEvent
 	{
 		public string Map { get; set; }
 
-		public StartedMap(DateTime dt, string map)
+		public ServerStartMap(DateTime dt, string map)
 			: base(dt)
 		{
 			Map = map;

@@ -11,25 +11,25 @@ namespace Psi
 		event Action<ServerCVarSet> ServerCVarSet;
 		event Action<ServerCVarsEnd> ServerCVarsEnd;
 
-		event Action<StartedMap> ServerStartMap;
+		event Action<ServerStartMap> ServerStartMap;
 
 		event Action<TeamTrigger> TeamTrigger;
 		event Action<WorldTrigger> WorldTrigger;
 
-		event Action<Connected> PlayerConnect;
-		event Action<Disconnected> PlayerDisconnect;
+		event Action<PlayerConnect> PlayerConnect;
+		event Action<PlayerDisconnect> PlayerDisconnect;
 
-		event Action<Say> PlayerSay;
-		event Action<SayTeam> PlayerSayTeam;
+		event Action<PlayerSay> PlayerSay;
+		event Action<PlayerSayTeam> PlayerSayTeam;
 
-		event Action<Attack> PlayerAttack;
-		event Action<UserValidated> PlayerValidate;
+		event Action<PlayerAttack> PlayerAttack;
+		event Action<PlayerValidate> PlayerValidate;
 		event Action<PlayerTrigger> PlayerTrigger;
 		event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
-		event Action<JoinTeam> PlayerJoinTeam;
-		event Action<PlayerEnteredGame> PlayerEnterGame;
-		event Action<NameChanged> PlayerNameChange;
-		event Action<Suicide> PlayerSuicide;
+		event Action<PlayerJoinTeam> PlayerJoinTeam;
+		event Action<PlayerEnterGame> PlayerEnterGame;
+		event Action<PlayerNameChange> PlayerNameChange;
+		event Action<PlayerSuicide> PlayerSuicide;
 	}
 }
 
