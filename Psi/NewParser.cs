@@ -32,13 +32,13 @@ namespace Psi
 				}
 			};
 
-			rawParser.Connect += (player, ip) => {
+			rawParser.PlayerConnect += (player, ip) => {
 				if (PlayerConnect != null) {
 					PlayerConnect(new PlayerConnect(dateTime, ReadPlayer(player), GetString(ip)));
 				}
 			};
 
-			rawParser.Disconnect += (player) => {
+			rawParser.PlayerDisconnect += (player) => {
 				if (PlayerDisconnect != null) {
 					PlayerDisconnect(new PlayerDisconnect(dateTime, ReadPlayer(player)));
 				}
@@ -50,7 +50,7 @@ namespace Psi
 				}
 			};
 
-			rawParser.ServerCVar += (k, v) => {
+			rawParser.ServerCVarSet += (k, v) => {
 				if (ServerCVarSet != null) {
 					ServerCVarSet(new ServerCVarSet(dateTime, GetString(k), GetString(v)));
 				}
@@ -80,25 +80,25 @@ namespace Psi
 				}
 			};
 
-			rawParser.Say += (player, text) => {
+			rawParser.PlayerSay += (player, text) => {
 				if (PlayerSay != null) {
 					PlayerSay(new PlayerSay(dateTime, ReadPlayer(player), GetString(text)));
 				}
 			};
 
-			rawParser.TeamSay += (player, text) => {
+			rawParser.PlayerSayTeam += (player, text) => {
 				if (PlayerSayTeam != null) {
 					PlayerSayTeam(new PlayerSayTeam(dateTime, ReadPlayer(player), GetString(text)));
 				}
 			};
 
-			rawParser.Attack += (player, victim, weapon) => {
+			rawParser.PlayerAttack += (player, victim, weapon) => {
 				if (PlayerAttack != null) {
 					PlayerAttack(new PlayerAttack(dateTime, ReadPlayer(player), ReadPlayer(victim), Encoding.ASCII.GetString(weapon)));
 				}
 			};
 
-			rawParser.Validate += (player) => {
+			rawParser.PlayerValidate += (player) => {
 				if (PlayerValidate != null) {
 					PlayerValidate(new PlayerValidate(dateTime, ReadPlayer(player)));
 				}
@@ -116,25 +116,25 @@ namespace Psi
 				}
 			};
 
-			rawParser.JoinTeam += (player, team) => {
+			rawParser.PlayerJoinTeam += (player, team) => {
 				if (PlayerJoinTeam != null) {
 					PlayerJoinTeam(new PlayerJoinTeam(dateTime, ReadPlayer(player), GetString(team)));
 				}
 			};
 
-			rawParser.EnterGame += (player) => {
+			rawParser.PlayerEnterGame += (player) => {
 				if (PlayerEnterGame != null) {
 					PlayerEnterGame(new PlayerEnterGame(dateTime, ReadPlayer(player)));
 				}
 			};
 
-			rawParser.NameChange += (player, name) => {
+			rawParser.PlayerNameChange += (player, name) => {
 				if (PlayerNameChange != null) {
 					PlayerNameChange(new PlayerNameChange(dateTime, ReadPlayer(player), GetString(name)));
 				}
 			};
 
-			rawParser.Suicide += (player, obj) => {
+			rawParser.PlayerSuicide += (player, obj) => {
 				if (PlayerSuicide != null) {
 					PlayerSuicide(new PlayerSuicide(dateTime, ReadPlayer(player), GetString(obj)));
 				}

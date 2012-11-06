@@ -91,13 +91,13 @@ namespace Psi
 		};
 
 		server_cvar = 'Server cvar "'(char *) % { tmp1 = fpc; }'" = "'(char *)'"' @ {
-			if (ServerCVar != null) {
+			if (ServerCVarSet != null) {
 				int name_start = start + 38;
 				int name_len = tmp1 - name_start;
 				int value_start = name_start + name_len + 5;
 				int value_len = fpc - value_start;
-				ServerCVar(new ArraySegment<byte>(data, name_start, name_len),
-				           new ArraySegment<byte>(data, value_start, value_len));
+				ServerCVarSet(new ArraySegment<byte>(data, name_start, name_len),
+				              new ArraySegment<byte>(data, value_start, value_len));
 			}
 		};
 
@@ -138,25 +138,25 @@ namespace Psi
 
 		player_events = '"' % { tmp1 = fpc; } (char *) % { tmp2 = fpc; } '" ' (
 			'connected, address ' value @ {
-				if (Connect != null) {
-					Connect(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-					        value);
+				if (PlayerConnect != null) {
+					PlayerConnect(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+					              value);
 				}
 			} |
 			'disconnected' @ {
-				if (Disconnect != null) {
-					Disconnect(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
+				if (PlayerDisconnect != null) {
+					PlayerDisconnect(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
 				}
 			} |
 			'entered the game' @ {
-				if (EnterGame != null) {
-					EnterGame(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
+				if (PlayerEnterGame != null) {
+					PlayerEnterGame(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
 				}
 			} |
 			'joined team ' value @ {
-				if (JoinTeam != null) {
-					JoinTeam(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-					         value);
+				if (PlayerJoinTeam != null) {
+					PlayerJoinTeam(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+					               value);
 				}
 			} |
 			'triggered '
@@ -176,45 +176,45 @@ namespace Psi
 				}
 			} |
 			'attacked "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '" with "' % { tmp5 = fpc; } (char *) % { tmp6 = fpc; } '"' @ {
-				if (Attack != null) {
-					Attack(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-					       new ArraySegment<byte>(data, tmp3, tmp4 - tmp3),
-					       new ArraySegment<byte>(data, tmp5, tmp6 - tmp5));
+				if (PlayerAttack != null) {
+					PlayerAttack(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+					             new ArraySegment<byte>(data, tmp3, tmp4 - tmp3),
+					             new ArraySegment<byte>(data, tmp5, tmp6 - tmp5));
 				}
 			} |
 			'killed ' target ' with ' value @ {
-				if (Killed != null) {
-					Killed(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-						   target,
-						   value);
+				if (PlayerKill != null) {
+					PlayerKill(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+					           target,
+					           value);
 				}
 			} |
 			'say ' value @ {
-				if (Say != null) {
-					Say(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				if (PlayerSay != null) {
+					PlayerSay(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 						value);
 				}
 			} |
 			'say_team ' value @ {
-				if (TeamSay != null) {
-					TeamSay(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				if (PlayerSayTeam != null) {
+					PlayerSayTeam(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 					        value);
 				}
 			} |
 			'STEAM USERID validated' @ {
-				if (Validate != null) {
-					Validate(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
+				if (PlayerValidate != null) {
+					PlayerValidate(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1));
 				}
 			} |
 			'changed name to ' value @ {
-				if (NameChange != null) {
-					NameChange(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				if (PlayerNameChange != null) {
+					PlayerNameChange(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 					           value);
 				}
 			} |
 			'committed suicide with ' value @ {
-				if (Suicide != null) {
-					Suicide(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+				if (PlayerSuicide != null) {
+					PlayerSuicide(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
 					        value);
 				}
 			}
@@ -248,7 +248,7 @@ namespace Psi
 		public event Action LogFileEnd;
 
 		public event Action ServerCVarsStart;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> ServerCVar;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> ServerCVarSet;
 		public event Action ServerCVarsEnd;
 
 		public event Action<ArraySegment<byte>> LoadingMap;
@@ -257,19 +257,19 @@ namespace Psi
 		public event Action<ArraySegment<byte>> WorldTrigger;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamTrigger;
 
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> Connect;
-		public event Action<ArraySegment<byte>> Disconnect;
-		public event Action<ArraySegment<byte>> EnterGame;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> JoinTeam;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerConnect;
+		public event Action<ArraySegment<byte>> PlayerDisconnect;
+		public event Action<ArraySegment<byte>> PlayerEnterGame;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerJoinTeam;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> PlayerTriggerAgainst;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Killed;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> Say;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> TeamSay;
-		public event Action<ArraySegment<byte>> Validate;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> NameChange;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> Suicide;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> PlayerAttack;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> PlayerKill;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerSay;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerSayTeam;
+		public event Action<ArraySegment<byte>> PlayerValidate;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerNameChange;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerSuicide;
 
 		#endregion
 
