@@ -66,21 +66,25 @@ namespace Psi.App
 			Console.WriteLine("Running benchmark");
 			Begin();
 			while (files.Count > 0) {
-				var file = files.Dequeue();
-				int start = file.Offset;
-				int end = file.Offset + file.Count;
-				int pos = start;
-				for (int j = start; j < end; j++) {
-					if (data[j] == '\n') {
-						ReadLine(new ArraySegment<byte>(data, pos, j - pos));
-						j++;
-						pos = j;
-					}
-				}
+				ReadFile(files.Dequeue());
 			}
 			End();
 
 			CurrentLineNumber = null;
+		}
+
+		public virtual void ReadFile(ArraySegment<byte> file)
+		{
+			int start = file.Offset;
+			int end = file.Offset + file.Count;
+			int pos = start;
+			for (int j = start; j < end; j++) {
+				if (data[j] == '\n') {
+					ReadLine(new ArraySegment<byte>(data, pos, j - pos));
+					j++;
+					pos = j;
+				}
+			}
 		}
 
 		public abstract void ReadLine(ArraySegment<byte> line);
