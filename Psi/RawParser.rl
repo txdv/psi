@@ -219,15 +219,15 @@ namespace Psi
 				}
 			} |
 			'say "' % { tmp3 = fpc; } (any *) '"' @ {
-				if (PlayerSay != null) {
+				if (p == pe - 1 && PlayerSay != null) {
 					PlayerSay(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-					          new ArraySegment<byte>(data, tmp2, fpc - tmp2 - 1));
+					          new ArraySegment<byte>(data, tmp3, fpc - tmp3));
 				}
 			} |
-			'say_team ' value @ {
-				if (PlayerSayTeam != null) {
+			'say_team "' % { tmp3 = fpc; } (any *) '"' @ {
+				if (p == pe - 1 && PlayerSayTeam != null) {
 					PlayerSayTeam(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-					        value);
+					              new ArraySegment<byte>(data, tmp3, fpc - tmp3));
 				}
 			} |
 			'STEAM USERID validated' @ {
