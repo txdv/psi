@@ -22,7 +22,7 @@ namespace Psi.App
 			Count = count;
 		}
 
-		Queue<Queue<ArraySegment<byte>>> queue = new Queue<Queue<ArraySegment<byte>>>();
+		Queue<ArraySegment<byte>> files = new Queue<ArraySegment<byte>>();
 		byte[] data;
 
 		public int TotalFiles { get; protected set; }
@@ -51,7 +51,6 @@ namespace Psi.App
 			i = 0;
 			Console.WriteLine();
 			foreach (FileInfo fi in Files) {
-				Queue<ArraySegment<byte>> file = new Queue<ArraySegment<byte>>();
 				Console.CursorTop--;
 				Console.WriteLine("Fetching {0}/{1}", i + 1, Files.Length);
 				i++;
@@ -59,26 +58,24 @@ namespace Psi.App
 				int start = (int)ms.Position;
 				f.CopyTo(ms);
 				int end = (int)ms.Position;
-				int pos = start;
-				for (int j = start; j < end; j++) {
-					if (data[j] == '\n') {
-						file.Enqueue(new ArraySegment<byte>(data, pos, j - pos));
-						j++;
-						pos = j;
-					}
-				}
 				f.Close();
-				queue.Enqueue(file);
+				files.Enqueue(new ArraySegment<byte>(data, start, end - start));
 			}
 
 
 			Console.WriteLine("Running benchmark");
 			Begin();
-			while (queue.Count > 0) {
-				var lines = queue.Dequeue();
-				while (lines.Count > 0) {
-					var line = lines.Dequeue();
-					ReadLine(line);
+			while (files.Count > 0) {
+				var file = files.Dequeue();
+				int start = file.Offset;
+				int end = file.Offset + file.Count;
+				int pos = start;
+				for (int j = start; j < end; j++) {
+					if (data[j] == '\n') {
+						ReadLine(new ArraySegment<byte>(data, pos, j - pos));
+						j++;
+						pos = j;
+					}
 				}
 			}
 			End();
