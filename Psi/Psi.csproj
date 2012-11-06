@@ -33,21 +33,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="LogEvents.cs" />
     <Compile Include="RawParser.cs" />
     <Compile Include="EncodingExtensions.cs" />
     <Compile Include="IParserEvents.cs" />
     <Compile Include="IParserEventsExtensions.cs" />
     <Compile Include="StringParser.cs" />
     <Compile Include="RagelParser.cs" />
-    <Compile Include="LogEvents\TeamScore.cs" />
     <Compile Include="LogEvents\TeamTrigger.cs" />
     <Compile Include="LogEvents\TeamBase.cs" />
-    <Compile Include="LogEvents\Meta.cs" />
+    <Compile Include="LogEvents\TeamScore.cs" />
     <Compile Include="LogEvents\Kick.cs" />
-    <Compile Include="LogEvents\Rcon.cs" />
     <Compile Include="LogEvents\ServerSay.cs" />
+    <Compile Include="LogEvents\Rcon.cs" />
+    <Compile Include="LogEvents\Meta.cs" />
     <Compile Include="LogEvents\ServerShutdown.cs" />
+    <Compile Include="LogEvents\tmp.cs" />
+    <Compile Include="LogEvents\LogEvent.cs" />
+    <Compile Include="LogEvents\PlayerBase.cs" />
+    <Compile Include="LogEvents\Player.cs" />
+    <Compile Include="LogEvents\PlayerEnterGame.cs" />
+    <Compile Include="LogEvents\PlayerAttack.cs" />
+    <Compile Include="LogEvents\PlayerMessage.cs" />
+    <Compile Include="LogEvents\PlayerSay.cs" />
+    <Compile Include="LogEvents\PlayerSayTeam.cs" />
+    <Compile Include="LogEvents\PlayerValidate.cs" />
+    <Compile Include="LogEvents\PlayerTrigger.cs" />
+    <Compile Include="LogEvents\PlayerTriggerAgainst.cs" />
+    <Compile Include="LogEvents\PlayerJoinTeam.cs" />
+    <Compile Include="LogEvents\PlayerDisconnect.cs" />
+    <Compile Include="LogEvents\PlayerConnect.cs" />
+    <Compile Include="LogEvents\PlayerNameChange.cs" />
+    <Compile Include="LogEvents\PlayerSuicide.cs" />
+    <Compile Include="LogEvents\PlayerKill.cs" />
+    <Compile Include="LogEvents\ServerStartMap.cs" />
+    <Compile Include="LogEvents\ServerCVars.cs" />
+    <Compile Include="LogEvents\LogFile.cs" />
+    <Compile Include="LogEvents\WorldTrigger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
