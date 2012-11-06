@@ -159,10 +159,20 @@ namespace Psi
 					         value);
 				}
 			} |
-			'triggered ' value @ {
-				if (PlayerTrigger != null) {
-					PlayerTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
-					              value);
+			'triggered '
+			% { tmp3 = 0; tmp4 = 0; } (value ' against "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '"' | value)
+			@ {
+				if (tmp3 == 0) {
+					if (PlayerTrigger != null) {
+						PlayerTrigger(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+									  value);
+					}
+				} else {
+					if (PlayerTriggerAgainst != null) {
+						PlayerTriggerAgainst(new ArraySegment<byte>(data, tmp1, tmp2 - tmp1),
+						                     value,
+						                     new ArraySegment<byte>(data, tmp3, tmp4 - tmp3));
+					}
 				}
 			} |
 			'attacked "' % { tmp3 = fpc; } (char *) % { tmp4 = fpc; } '" with "' % { tmp5 = fpc; } (char *) % { tmp6 = fpc; } '"' @ {
@@ -252,7 +262,7 @@ namespace Psi
 		public event Action<ArraySegment<byte>> EnterGame;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> JoinTeam;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTrigger;
-		public event Action<ArraySegment<byte>, ArraySegment<byte>> PlayerTriggerAgainst;
+		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> PlayerTriggerAgainst;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Attack;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>, ArraySegment<byte>> Killed;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> Say;

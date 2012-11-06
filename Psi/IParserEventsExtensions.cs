@@ -26,6 +26,12 @@ namespace Psi
 
 			parser.Attack += @event;
 			parser.UserValidated += @event;
+			parser.PlayerTrigger += @event;
+			parser.PlayerTriggerAgainst += @event;
+			parser.JoinTeam += @event;
+			parser.PlayerEnteredGame += @event;
+			parser.NameChanged += @event;
+			parser.Suicide += @event;
 		}
 	}
 }

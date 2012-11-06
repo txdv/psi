@@ -110,11 +110,33 @@ namespace Psi
 				}
 			};
 
-			// TODO: playertriggeragainst
+			rawParser.PlayerTriggerAgainst += (player, trigger, against) => {
+				if (PlayerTriggerAgainst != null) {
+					PlayerTriggerAgainst(new PlayerTriggerAgainst(dateTime, ReadPlayer(player), GetString(trigger), ReadPlayer(against)));
+				}
+			};
 
 			rawParser.JoinTeam += (player, team) => {
 				if (JoinTeam != null) {
 					JoinTeam(new JoinTeam(dateTime, ReadPlayer(player), GetString(team)));
+				}
+			};
+
+			rawParser.EnterGame += (player) => {
+				if (PlayerEnteredGame != null) {
+					PlayerEnteredGame(new PlayerEnteredGame(dateTime, ReadPlayer(player)));
+				}
+			};
+
+			rawParser.NameChange += (player, name) => {
+				if (NameChanged != null) {
+					NameChanged(new NameChanged(dateTime, ReadPlayer(player), GetString(name)));
+				}
+			};
+
+			rawParser.Suicide += (player, obj) => {
+				if (Suicide != null) {
+					Suicide(new Suicide(dateTime, ReadPlayer(player), GetString(obj)));
 				}
 			};
 		}
@@ -178,7 +200,6 @@ namespace Psi
 		public event Action<PlayerEnteredGame> PlayerEnteredGame;
 		public event Action<NameChanged> NameChanged;
 		public event Action<Suicide> Suicide;
-
 	}
 }
 

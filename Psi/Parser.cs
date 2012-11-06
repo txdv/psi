@@ -552,31 +552,36 @@ namespace Psi
 			}
 		}
 
-		#region Events
-
 		public event Action<LogEvent> LogEvent;
+
+		#region Events
 
 		public event Action<LogFileStart> LogFileStart;
 		public event Action<LogFileClose> LogFileClose;
 
-		public event Action<Attack> Attack;
+		public event Action<ServerCVarsStart> ServerCVarsStart;
+		public event Action<ServerCVarSet> ServerCVarSet;
+		public event Action<ServerCVarsEnd> ServerCVarsEnd;
+
+		public event Action<StartedMap> StartedMap;
+
+		public event Action<TeamTrigger> TeamTrigger;
+		public event Action<WorldTrigger> WorldTrigger;
+
+		public event Action<Connected> Connected;
+		public event Action<Disconnected> Disconnected;
+
 		public event Action<Say> Say;
 		public event Action<SayTeam> SayTeam;
+
+		public event Action<Attack> Attack;
 		public event Action<UserValidated> UserValidated;
 		public event Action<PlayerTrigger> PlayerTrigger;
 		public event Action<PlayerTriggerAgainst> PlayerTriggerAgainst;
 		public event Action<JoinTeam> JoinTeam;
 		public event Action<PlayerEnteredGame> PlayerEnteredGame;
-		public event Action<Disconnected> Disconnected;
 		public event Action<NameChanged> NameChanged;
-		public event Action<Connected> Connected;
 		public event Action<Suicide> Suicide;
-		public event Action<ServerCVarsStart> ServerCVarsStart;
-		public event Action<ServerCVarsEnd> ServerCVarsEnd;
-		public event Action<ServerCVarSet> ServerCVarSet;
-		public event Action<StartedMap> StartedMap;
-		public event Action<TeamTrigger> TeamTrigger;
-		public event Action<WorldTrigger> WorldTrigger;
 
 		#endregion
 	}
