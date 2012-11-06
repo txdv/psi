@@ -5,22 +5,20 @@ using System.Text;
 
 namespace Psi.App
 {
-	public class Test : LogProvider
+	public class Test : ParallelLogProvider
 	{
 		public Test(int? n)
 			: base(n)
 		{
 		}
 
-		RagelParser rp = new RagelParser();
-
-		public override void ReadLine(ArraySegment<byte> seg)
+		public override void ReadLine (RagelParser parser, ArraySegment<byte> line)
 		{
-			if (!rp.Parse(seg)) {
-				string line = Encoding.ASCII.GetString(seg.Array, seg.Offset, seg.Count);
-				Console.WriteLine(line);
+			if (!parser.Parse(line)) {
+				Console.WriteLine(Encoding.ASCII.GetString(line));
 			}
 		}
+
 	}
 }
 

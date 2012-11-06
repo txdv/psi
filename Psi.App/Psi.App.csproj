@@ -43,6 +43,8 @@
     <Compile Include="LogCount.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="MultiCpuBenchmark.cs" />
+    <Compile Include="LinearLogProvider.cs" />
+    <Compile Include="ParallelLogProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

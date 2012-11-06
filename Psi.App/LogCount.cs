@@ -8,7 +8,7 @@ using Psi;
 
 namespace Psi.App
 {
-	public class LogCount : LogProvider
+	public class LogCount : LinearLogProvider
 	{
 		Dictionary<string, int> count = new Dictionary<string, int>();
 

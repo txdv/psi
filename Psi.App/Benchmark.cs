@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Psi.App
 {
-	public class Benchmark : LogProvider
+	public class Benchmark : LinearLogProvider
 	{
 		RagelParser parser = new RagelParser();
 
