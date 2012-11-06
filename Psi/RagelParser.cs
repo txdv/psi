@@ -92,6 +92,12 @@ namespace Psi
 				}
 			};
 
+			rawParser.ServerSay += (message) => {
+				if (ServerSay != null) {
+					ServerSay(new ServerSay(dateTime, GetString(message)) { Options = options });
+				}
+			};
+
 			rawParser.WorldTrigger += (trigger) => {
 				if (WorldTrigger != null) {
 					WorldTrigger(new WorldTrigger(dateTime, GetString(trigger)) { Options = options });
@@ -269,6 +275,7 @@ namespace Psi
 		public event Action<ServerCVarsEnd> ServerCVarsEnd;
 
 		public event Action<ServerStartMap> ServerStartMap;
+		public event Action<ServerSay> ServerSay;
 
 		public event Action<WorldTrigger> WorldTrigger;
 

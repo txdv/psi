@@ -107,6 +107,12 @@ namespace Psi
 			}
 		};
 
+		server_say = 'Server say "' % { tmp1 = fpc; } (any *) '"' @ {
+			if (p == pe - 1 && ServerSay != null) {
+				ServerSay(new ArraySegment<byte>(data, tmp1, fpc - tmp1));
+			}
+		};
+
 		world_trigger = 'World triggered "' % { tmp1 = fpc; } (char *) '"' @ {
 			if (WorldTrigger != null) {
 				WorldTrigger(new ArraySegment<byte>(data, tmp1, fpc - tmp1));
@@ -256,6 +262,7 @@ namespace Psi
 				| servers_cvars_start
 				| server_cvar
 				| server_cvar_end
+				| server_say
 				| world_trigger
 				| team
 				| started_map
@@ -286,6 +293,8 @@ namespace Psi
 		public event Action ServerCVarsStart;
 		public event Action<ArraySegment<byte>, ArraySegment<byte>> ServerCVarSet;
 		public event Action ServerCVarsEnd;
+
+		public event Action<ArraySegment<byte>> ServerSay;
 
 		public event Action<ArraySegment<byte>> LoadingMap;
 		public event Action<ArraySegment<byte>> StartedMap;
