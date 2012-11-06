@@ -32,6 +32,7 @@ namespace Psi
 			parser.PlayerEnterGame += @event;
 			parser.PlayerNameChange += @event;
 			parser.PlayerSuicide += @event;
+			parser.PlayerKill += @event;
 		}
 	}
 }
